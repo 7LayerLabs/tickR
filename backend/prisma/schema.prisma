@@ -1,0 +1,224 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ============ USERS & AUTH ============
+
+model User {
+  id            String    @id @default(uuid())
+  username      String    @unique @db.VarChar(20)
+  passwordHash  String
+  ageBand       AgeBand
+  learningLevel Int       @default(1) @db.SmallInt
+  points        Int       @default(0)
+  parentId      String?
+  createdAt     DateTime  @default(now())
+  lastLogin     DateTime?
+
+  portfolio     Portfolio?
+  transactions  Transaction[]
+  learning      Learning?
+  pointsHistory PointsHistory[]
+
+  @@index([username])
+  @@map("users")
+}
+
+enum AgeBand {
+  TWEEN       // 12-13
+  EARLY_TEEN  // 14-15
+  LATE_TEEN   // 16
+}
+
+// ============ PORTFOLIO ============
+
+model Portfolio {
+  id            String     @id @default(uuid())
+  userId        String     @unique
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cashBalance   Decimal    @db.Decimal(12, 2) @default(10000.00)
+  totalValue    Decimal    @db.Decimal(12, 2) @default(10000.00)
+  updatedAt     DateTime   @updatedAt
+
+  positions     Position[]
+  snapshots     PortfolioSnapshot[]
+
+  @@map("portfolios")
+}
+
+model Position {
+  id                String    @id @default(uuid())
+  portfolioId       String
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  ticker            String    @db.VarChar(10)
+  shares            Int
+  avgCostPerShare   Decimal   @db.Decimal(10, 4)
+  currentPrice      Decimal   @db.Decimal(10, 4)
+  currentValue      Decimal   @db.Decimal(12, 2)
+  sector            String    @db.VarChar(50)
+  boughtAt          DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@unique([portfolioId, ticker])
+  @@index([ticker])
+  @@map("positions")
+}
+
+model PortfolioSnapshot {
+  id              String    @id @default(uuid())
+  portfolioId     String
+  portfolio       Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  totalValue      Decimal   @db.Decimal(12, 2)
+  cashBalance     Decimal   @db.Decimal(12, 2)
+  dailyChange     Decimal   @db.Decimal(12, 2)
+  dailyChangePercent Decimal @db.Decimal(6, 4)
+  positionsSnapshot Json
+  snapshotDate    DateTime  @db.Date
+  createdAt       DateTime  @default(now())
+
+  @@unique([portfolioId, snapshotDate])
+  @@index([snapshotDate])
+  @@map("portfolio_snapshots")
+}
+
+// ============ MARKET DATA ============
+
+model MarketData {
+  ticker           String    @id @db.VarChar(10)
+  companyName      String    @db.VarChar(100)
+  sector           String    @db.VarChar(50)
+  price            Decimal   @db.Decimal(10, 4)
+  previousClose    Decimal   @db.Decimal(10, 4)
+  changePercent    Decimal   @db.Decimal(6, 4)
+  marketCap        BigInt?
+  peRatio          Decimal?  @db.Decimal(8, 4)
+  pegRatio         Decimal?  @db.Decimal(8, 4)
+  growthPercent    Decimal?  @db.Decimal(6, 4)
+  isAvailable      Boolean   @default(true)
+  updatedAt        DateTime  @updatedAt
+
+  // Company description fields
+  whatCompanyDoes  String?   @db.Text
+  whyPeopleKnowIt  Json?
+  revenueBreakdown Json?
+
+  @@index([sector])
+  @@index([price])
+  @@map("market_data")
+}
+
+// ============ TRANSACTIONS ============
+
+model Transaction {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  ticker        String      @db.VarChar(10)
+  type          TransactionType
+  shares        Int
+  pricePerShare Decimal     @db.Decimal(10, 4)
+  totalAmount   Decimal     @db.Decimal(12, 2)
+  timestamp     DateTime    @default(now())
+
+  @@index([userId, timestamp])
+  @@index([ticker])
+  @@map("transactions")
+}
+
+enum TransactionType {
+  BUY
+  SELL
+}
+
+// ============ LEARNING ============
+
+model Learning {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  level             Int      @default(1) @db.SmallInt
+  lessonsCompleted  String[]
+  quizzesTaken      Int      @default(0)
+  conceptsMastered  String[]
+  unlockedMetrics   String[]
+  progressionScore  Int      @default(0)
+  updatedAt         DateTime @updatedAt
+
+  @@map("learning")
+}
+
+model LessonContent {
+  id                String   @id
+  title             String
+  description       String   @db.Text
+  learningLevel     Int      @db.SmallInt
+  estimatedMinutes  Int
+  unlockRequirement Json
+  cards             Json
+  quiz              Json
+  realWorldExample  Json?
+  metricsUnlocked   String[]
+  pointsOnCompletion Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([learningLevel])
+  @@map("lesson_content")
+}
+
+// ============ POINTS ============
+
+model PointsHistory {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pointsEarned      Int
+  reason            PointsReason
+  description       String?  @db.Text
+  timestamp         DateTime @default(now())
+
+  @@index([userId, timestamp])
+  @@map("points_history")
+}
+
+enum PointsReason {
+  LESSON_COMPLETED
+  QUIZ_CORRECT
+  REFLECTION
+  PORTFOLIO_GREEN
+  PORTFOLIO_RED
+  MILESTONE
+}
+
+// ============ TRADE COOLDOWNS ============
+
+model TradeCooldown {
+  id          String   @id @default(uuid())
+  userId      String
+  ticker      String   @db.VarChar(10)
+  lastTrade   DateTime @default(now())
+
+  @@unique([userId, ticker])
+  @@index([userId])
+  @@map("trade_cooldowns")
+}
+
+// ============ SECTORS ============
+
+model Sector {
+  id          String   @id @default(uuid())
+  name        String   @unique @db.VarChar(50)
+  displayName String   @db.VarChar(100)
+  description String   @db.Text
+  icon        String?  @db.VarChar(50)
+  isStarter   Boolean  @default(false)
+  unlockLevel Int      @default(1) @db.SmallInt
+  unlockPoints Int     @default(0)
+
+  @@map("sectors")
+}
