@@ -10,18 +10,20 @@ import {
   Star,
   Zap,
   TrendingUp,
-  PiggyBank,
-  Target,
-  Shield,
-  BarChart3,
-  DollarSign,
   Lightbulb,
   ChevronRight,
-  Award,
   Clock,
   ArrowRight,
   Sparkles
 } from 'lucide-react'
+import {
+  LearnIcon,
+  TrophyIcon,
+  GoalIcon,
+  SafetyIcon,
+  StrategyIcon,
+  RocketIcon,
+} from '@/components/icons/TickRIcons'
 
 // Learning paths with real financial education content
 const LEARNING_PATHS = [
@@ -1312,87 +1314,79 @@ export default function LearnPage() {
   return (
     <div className="space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-amber-400 via-orange-500 to-red-500 p-8 text-white border border-black/20">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500/20 via-navy-800 to-navy-900 p-8 text-cream-100 border border-orange-500/30">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-teal-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
         <div className="relative flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-6 h-6 text-yellow-300" />
-              <span className="text-sm font-semibold text-white/80 uppercase tracking-wider">Learning Hub</span>
+              <Sparkles className="w-6 h-6 text-gold-400" />
+              <span className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Learning Hub</span>
             </div>
-            <h1 className="text-4xl font-display font-bold mb-3">Level Up Your Money Skills</h1>
-            <p className="text-white/80 mb-6 max-w-lg">
+            <h1 className="text-4xl font-display font-bold mb-3">Level Up Your <span className="text-orange-400">Money Skills</span></h1>
+            <p className="text-slate-300 mb-6 max-w-lg">
               Real lessons. Real examples. Learn what the pros know, explained simply.
             </p>
 
             {/* Stats */}
             <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 backdrop-blur-sm">
-                <BookOpen className="w-5 h-5" />
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-navy-900/50 border border-white/10">
+                <BookOpen className="w-5 h-5 text-orange-400" />
                 <span className="font-semibold">{completedLessonsCount}/{totalLessons} Lessons</span>
               </div>
-              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/20 backdrop-blur-sm">
-                <Zap className="w-5 h-5 text-yellow-300" />
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-navy-900/50 border border-white/10">
+                <Zap className="w-5 h-5 text-gold-400" />
                 <span className="font-semibold">{earnedXp} XP Earned</span>
               </div>
             </div>
           </div>
 
-          {/* Mascot or illustration */}
+          {/* Icon */}
           <div className="hidden lg:block">
-            <div className="w-32 h-32 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
-              <span className="text-6xl">📚</span>
-            </div>
+            <LearnIcon size={100} />
           </div>
         </div>
       </div>
 
       {/* Progress Overview */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-cyan-50 border border-emerald-200">
+        <div className="p-6 rounded-2xl bg-navy-800 border border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 rounded-xl bg-emerald-500">
-              <Award className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-semibold text-slate-600">Progress</span>
+            <TrophyIcon size={40} />
+            <span className="font-display font-semibold text-slate-300">Progress</span>
           </div>
-          <div className="text-3xl font-bold text-emerald-600">{totalLessons > 0 ? Math.round((completedLessonsCount / totalLessons) * 100) : 0}%</div>
-          <div className="mt-2 h-2 rounded-full bg-emerald-200 overflow-hidden">
+          <div className="text-3xl font-display font-bold text-teal-400">{totalLessons > 0 ? Math.round((completedLessonsCount / totalLessons) * 100) : 0}%</div>
+          <div className="mt-2 h-2 rounded-full bg-navy-900 overflow-hidden">
             <div
-              className="h-full rounded-full bg-emerald-500 transition-all"
+              className="h-full rounded-full bg-teal-400 transition-all"
               style={{ width: `${totalLessons > 0 ? (completedLessonsCount / totalLessons) * 100 : 0}%` }}
             />
           </div>
         </div>
 
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
+        <div className="p-6 rounded-2xl bg-navy-800 border border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 rounded-xl bg-amber-500">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-semibold text-slate-600">Total XP</span>
+            <RocketIcon size={40} />
+            <span className="font-display font-semibold text-slate-300">Total XP</span>
           </div>
-          <div className="text-3xl font-bold text-amber-600">{earnedXp}</div>
+          <div className="text-3xl font-display font-bold text-orange-400">{earnedXp}</div>
           <p className="text-sm text-slate-500 mt-1">Keep learning to earn more!</p>
         </div>
 
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50 border border-violet-200">
+        <div className="p-6 rounded-2xl bg-navy-800 border border-white/10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 rounded-xl bg-violet-500">
-              <Target className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-semibold text-slate-600">Current Streak</span>
+            <GoalIcon size={40} />
+            <span className="font-display font-semibold text-slate-300">Current Streak</span>
           </div>
-          <div className="text-3xl font-bold text-violet-600">{currentStreak} Days</div>
+          <div className="text-3xl font-display font-bold text-gold-400">{currentStreak} Days</div>
           <p className="text-sm text-slate-500 mt-1">{currentStreak > 0 ? "You're on fire! 🔥" : "Start your streak today!"}</p>
         </div>
       </div>
 
       {/* Learning Paths */}
       <div>
-        <h2 className="text-2xl font-bold text-slate-800 mb-5">Learning Paths</h2>
+        <h2 className="text-2xl font-display font-bold text-cream-100 mb-5">Learning Paths</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           {LEARNING_PATHS.map((path) => {
             const pathCompleted = path.lessons.filter(l => isLessonCompleted(l.id, path.id)).length
@@ -1403,12 +1397,12 @@ export default function LearnPage() {
               <button
                 key={path.id}
                 onClick={() => setSelectedPath(path.id)}
-                className="group text-left p-6 rounded-2xl bg-white border-2 border-slate-100 border-black/10 hover:border-transparent hover:shadow-xl transition-all duration-300 overflow-hidden relative"
+                className="group text-left p-6 rounded-2xl bg-navy-800 border border-white/10 hover:border-orange-500/30 hover:shadow-glow-orange transition-all duration-300 overflow-hidden relative"
               >
                 {/* Background gradient on hover */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{ background: `linear-gradient(135deg, ${path.color}10, ${path.color}05)` }}
+                  style={{ background: `linear-gradient(135deg, ${path.color}15, transparent)` }}
                 />
 
                 <div className="relative">
@@ -1420,15 +1414,15 @@ export default function LearnPage() {
                     <Icon className="w-7 h-7 text-white" />
                   </div>
 
-                  <h3 className="text-xl font-bold text-slate-800 mb-1">{path.title}</h3>
-                  <p className="text-slate-500 text-sm mb-4">{path.description}</p>
+                  <h3 className="text-xl font-display font-bold text-cream-100 mb-1">{path.title}</h3>
+                  <p className="text-slate-400 text-sm mb-4">{path.description}</p>
 
                   {/* Progress */}
                   <div className="flex items-center justify-between text-sm mb-2">
                     <span className="text-slate-500">{pathCompleted}/{path.lessons.length} lessons</span>
                     <span className="font-bold" style={{ color: path.color }}>{Math.round(pathProgress)}%</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div className="h-2 rounded-full bg-navy-900 overflow-hidden">
                     <div
                       className="h-full rounded-full transition-all duration-500"
                       style={{
@@ -1451,30 +1445,30 @@ export default function LearnPage() {
       </div>
 
       {/* Why Learn Section */}
-      <div className="p-6 rounded-3xl bg-gradient-to-br from-slate-50 to-white border-2 border-slate-100 border-black/10">
-        <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
-          <Lightbulb className="w-6 h-6 text-amber-500" />
+      <div className="p-6 rounded-3xl bg-navy-800 border border-white/10">
+        <h2 className="text-xl font-display font-bold text-cream-100 mb-6 flex items-center gap-3">
+          <StrategyIcon size={40} />
           Why Learn Investing Young?
         </h2>
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="text-center">
+          <div className="text-center p-4 rounded-2xl bg-navy-900/50 border border-white/5">
             <div className="text-4xl mb-3">📈</div>
-            <h3 className="font-bold text-slate-800 mb-2">Compound Growth</h3>
-            <p className="text-sm text-slate-500">
+            <h3 className="font-display font-bold text-cream-100 mb-2">Compound Growth</h3>
+            <p className="text-sm text-slate-400">
               $1,000 invested at 15 could become $88,000 by 65. Same money at 35 = only $17,000. Time is your superpower!
             </p>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 rounded-2xl bg-navy-900/50 border border-white/5">
             <div className="text-4xl mb-3">🧠</div>
-            <h3 className="font-bold text-slate-800 mb-2">Build Good Habits</h3>
-            <p className="text-sm text-slate-500">
+            <h3 className="font-display font-bold text-cream-100 mb-2">Build Good Habits</h3>
+            <p className="text-sm text-slate-400">
               Learn to research, be patient, and think long-term. These skills help in school, careers, and life.
             </p>
           </div>
-          <div className="text-center">
+          <div className="text-center p-4 rounded-2xl bg-navy-900/50 border border-white/5">
             <div className="text-4xl mb-3">💪</div>
-            <h3 className="font-bold text-slate-800 mb-2">Financial Freedom</h3>
-            <p className="text-sm text-slate-500">
+            <h3 className="font-display font-bold text-cream-100 mb-2">Financial Freedom</h3>
+            <p className="text-sm text-slate-400">
               Understanding money = more choices in life. Skip the paycheck-to-paycheck stress that most adults face.
             </p>
           </div>

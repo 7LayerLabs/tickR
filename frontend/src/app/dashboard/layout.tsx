@@ -7,26 +7,29 @@ import { useGameStore, useLevelInfo } from '@/lib/game.store'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  LayoutDashboard,
-  TrendingUp,
-  BookOpen,
-  Trophy,
   ChevronRight,
   LogOut,
   Menu,
   X,
   Zap,
-  Award,
-  User
 } from 'lucide-react'
+import {
+  PortfolioIcon,
+  LearnIcon,
+  TrophyIcon,
+  StockIcon,
+  LeaderboardIcon,
+  RocketIcon,
+  WalletIcon,
+} from '@/components/icons/TickRIcons'
 
 const NAV_ITEMS = [
-  { href: '/dashboard/portfolio', label: 'Portfolio', icon: LayoutDashboard, color: '#10b981' },
-  { href: '/dashboard/learn', label: 'Learn', icon: BookOpen, color: '#f59e0b' },
-  { href: '/dashboard/stocks', label: 'Explore', icon: TrendingUp, color: '#0ea5e9' },
-  { href: '/dashboard/achievements', label: 'Badges', icon: Award, color: '#8b5cf6' },
-  { href: '/dashboard/leaderboard', label: 'Compete', icon: Trophy, color: '#ec4899' },
-  { href: '/dashboard/profile', label: 'Profile', icon: User, color: '#6366f1' },
+  { href: '/dashboard/portfolio', label: 'Portfolio', Icon: PortfolioIcon },
+  { href: '/dashboard/learn', label: 'Learn', Icon: LearnIcon },
+  { href: '/dashboard/stocks', label: 'Explore', Icon: StockIcon },
+  { href: '/dashboard/achievements', label: 'Badges', Icon: TrophyIcon },
+  { href: '/dashboard/leaderboard', label: 'Compete', Icon: LeaderboardIcon },
+  { href: '/dashboard/profile', label: 'Profile', Icon: RocketIcon },
 ]
 
 const LEVEL_COLORS = [
@@ -80,16 +83,16 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const levelColor = LEVEL_COLORS[Math.min(level - 1, LEVEL_COLORS.length - 1)]
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-navy-900">
       {/* Mobile menu button */}
       <button
         onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-white shadow-lg border border-slate-200"
+        className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-xl bg-navy-800 shadow-lg border border-white/10"
       >
         {sidebarOpen ? (
-          <X className="w-6 h-6 text-slate-700" />
+          <X className="w-6 h-6 text-cream-100" />
         ) : (
-          <Menu className="w-6 h-6 text-slate-700" />
+          <Menu className="w-6 h-6 text-cream-100" />
         )}
       </button>
 
@@ -97,21 +100,21 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       <aside
         className={`
           fixed lg:static inset-y-0 left-0 z-40
-          w-72 flex flex-col bg-white border-r border-slate-200
+          w-72 flex flex-col bg-navy-800 border-r border-white/10
           transform transition-transform duration-300 ease-in-out
           lg:transform-none shadow-xl lg:shadow-none
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-slate-100">
+        <div className="p-6 border-b border-white/10">
           <Link href="/dashboard/portfolio" className="flex items-center">
             <Image
               src="/images/tickR_altword.jpg"
               alt="TickR"
               width={200}
               height={60}
-              className="h-14 w-auto"
+              className="h-14 w-auto rounded-lg"
               priority
             />
           </Link>
@@ -119,7 +122,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
 
         {/* User Card */}
         <div className="p-4">
-          <Link href="/dashboard/profile" className="block p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all group">
+          <Link href="/dashboard/profile" className="block p-4 rounded-2xl bg-navy-900/50 border border-white/10 hover:border-orange-500/30 hover:shadow-glow-orange transition-all group">
             <div className="flex items-center gap-3 mb-4">
               <div
                 className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-lg group-hover:scale-105 transition-transform"
@@ -128,7 +131,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                 {username?.charAt(0).toUpperCase()}
               </div>
               <div className="flex-1 min-w-0">
-                <div className="font-bold text-slate-800 truncate text-lg group-hover:text-indigo-600 transition-colors">{username}</div>
+                <div className="font-display font-bold text-cream-100 truncate text-lg group-hover:text-orange-400 transition-colors">{username}</div>
                 <div className="flex items-center gap-1 text-sm font-semibold" style={{ color: levelColor }}>
                   <Zap className="w-4 h-4" />
                   Level {level} · {title}
@@ -139,34 +142,34 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
             {/* XP Progress Bar */}
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-slate-500 font-medium">XP Progress</span>
-                <span className="font-bold text-amber-500">{xp.toLocaleString()} XP</span>
+                <span className="text-slate-400 font-medium">XP Progress</span>
+                <span className="font-bold text-orange-400">{xp.toLocaleString()} XP</span>
               </div>
-              <div className="h-3 rounded-full overflow-hidden bg-slate-200">
+              <div className="h-3 rounded-full overflow-hidden bg-navy-900">
                 <div
                   className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
                   style={{
                     width: `${progressPercent}%`,
-                    background: `linear-gradient(90deg, #10b981, #0ea5e9, #8b5cf6)`
+                    background: `linear-gradient(90deg, #fb923c, #f97316, #ea580c)`
                   }}
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
                 </div>
               </div>
-              <div className="text-xs text-slate-400 text-right">
+              <div className="text-xs text-slate-500 text-right">
                 {(100 - progressPercent).toFixed(0)}% to Level {level + 1}
               </div>
             </div>
 
             {/* Badges preview */}
             {unlockedAchievements.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-slate-200">
+              <div className="mt-3 pt-3 border-t border-white/10">
                 <div className="flex items-center gap-1 flex-wrap">
                   {unlockedAchievements.slice(0, 4).map(a => (
                     <span key={a.id} className="text-lg" title={a.name}>{a.icon}</span>
                   ))}
                   {unlockedAchievements.length > 4 && (
-                    <span className="text-xs text-slate-400 font-medium">+{unlockedAchievements.length - 4} more</span>
+                    <span className="text-xs text-slate-500 font-medium">+{unlockedAchievements.length - 4} more</span>
                   )}
                 </div>
               </div>
@@ -179,7 +182,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           <div className="space-y-2">
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href || pathname?.startsWith(item.href + '/')
-              const Icon = item.icon
+              const IconComponent = item.Icon
 
               return (
                 <Link
@@ -187,29 +190,22 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   href={item.href}
                   onClick={() => setSidebarOpen(false)}
                   className={`
-                    flex items-center gap-3 px-4 py-3.5 rounded-xl
+                    flex items-center gap-3 px-3 py-2.5 rounded-xl
                     transition-all duration-200 group
                     ${isActive
-                      ? 'bg-gradient-to-r from-slate-100 to-transparent shadow-sm'
-                      : 'hover:bg-slate-50'
+                      ? 'bg-gradient-to-r from-orange-500/20 to-transparent border border-orange-500/30'
+                      : 'hover:bg-white/5 border border-transparent'
                     }
                   `}
                 >
-                  <div
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                      isActive ? 'shadow-md' : 'group-hover:scale-110'
-                    }`}
-                    style={{
-                      backgroundColor: isActive ? item.color : `${item.color}15`,
-                    }}
-                  >
-                    <Icon className={`w-5 h-5 ${isActive ? 'text-white' : ''}`} style={{ color: isActive ? 'white' : item.color }} />
+                  <div className={`transition-transform ${isActive ? 'scale-100' : 'group-hover:scale-110'}`}>
+                    <IconComponent size={40} />
                   </div>
-                  <span className={`font-semibold ${isActive ? 'text-slate-800' : 'text-slate-600'}`}>
+                  <span className={`font-display font-semibold ${isActive ? 'text-orange-400' : 'text-slate-300 group-hover:text-cream-100'}`}>
                     {item.label}
                   </span>
                   {isActive && (
-                    <ChevronRight className="w-5 h-5 ml-auto" style={{ color: item.color }} />
+                    <ChevronRight className="w-5 h-5 ml-auto text-orange-400" />
                   )}
                 </Link>
               )
@@ -220,14 +216,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Mascot & Streak */}
         <div className="p-4 space-y-4">
           {/* Daily Streak Card */}
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 border-black/10">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-orange-500/20 to-gold-500/10 border border-orange-500/30">
             <div className="flex items-center gap-3">
               <div className="text-3xl">🔥</div>
               <div>
-                <div className="font-bold text-amber-700">
+                <div className="font-display font-bold text-orange-400">
                   {currentStreak > 0 ? `${currentStreak} Day Streak!` : 'Start Your Streak!'}
                 </div>
-                <div className="text-sm text-amber-600">
+                <div className="text-sm text-orange-300/70">
                   {currentStreak > 0 ? 'Keep it going!' : 'Log in daily to build your streak'}
                 </div>
               </div>
@@ -241,8 +237,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               alt="TickR Mascot"
               width={100}
               height={100}
-              className="hover:scale-110 transition-transform cursor-pointer"
-              style={{ borderRadius: '20px' }}
+              className="hover:scale-110 transition-transform cursor-pointer rounded-2xl border-2 border-orange-500/30"
             />
           </div>
 
@@ -252,7 +247,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
               logout()
               router.push('/')
             }}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-slate-500 hover:text-red-500 hover:bg-red-50 transition-all border border-transparent hover:border-red-200"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-slate-400 hover:text-coral-400 hover:bg-coral-500/10 transition-all border border-transparent hover:border-coral-500/30"
           >
             <LogOut className="w-5 h-5" />
             <span className="font-medium">Sign Out</span>
@@ -263,7 +258,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 lg:hidden"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-30 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
@@ -271,20 +266,20 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 min-h-screen">
         {/* Top Bar */}
-        <header className="sticky top-0 z-20 px-6 py-4 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <header className="sticky top-0 z-20 px-6 py-4 bg-navy-900/80 backdrop-blur-md border-b border-white/10">
           <div className="flex items-center justify-between max-w-6xl mx-auto pl-12 lg:pl-0">
             <div>
-              <h1 className="text-2xl font-display font-bold text-slate-800">
+              <h1 className="text-2xl font-display font-bold text-cream-100">
                 {NAV_ITEMS.find(item => pathname?.startsWith(item.href))?.label || 'Dashboard'}
               </h1>
             </div>
 
             {/* Cash Balance */}
-            <div className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-50 to-cyan-50 border border-emerald-200 border-black/10">
-              <span className="text-2xl">💰</span>
+            <div className="flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-navy-800 border border-white/10">
+              <WalletIcon size={40} />
               <div>
-                <div className="text-xs text-slate-500 font-medium">Cash Balance</div>
-                <div className="font-bold text-emerald-600 text-lg">
+                <div className="text-xs text-slate-400 font-medium">Cash Balance</div>
+                <div className="font-display font-bold text-teal-400 text-lg">
                   ${cashBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                 </div>
               </div>

@@ -3,8 +3,6 @@
 import { useState } from 'react'
 import { useGameStore, useLevelInfo, usePortfolioStats, LEVEL_TITLES } from '@/lib/game.store'
 import {
-  Trophy,
-  Medal,
   Crown,
   TrendingUp,
   Flame,
@@ -13,8 +11,13 @@ import {
   ChevronDown,
   Minus,
   Globe,
-  Target
 } from 'lucide-react'
+import {
+  LeaderboardIcon,
+  TrophyIcon,
+  GoalIcon,
+  RocketIcon,
+} from '@/components/icons/TickRIcons'
 
 // Mock leaderboard data - in a real app this would come from an API
 const MOCK_PLAYERS = [
@@ -116,23 +119,21 @@ export default function LeaderboardPage() {
   return (
     <div className="space-y-6">
       {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-500 via-rose-500 to-orange-500 p-8 text-white border border-black/20">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-gold-500/20 via-navy-800 to-navy-900 p-8 text-cream-100 border border-gold-500/30">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
         <div className="relative">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 rounded-2xl bg-white/20">
-              <Trophy className="w-8 h-8" />
-            </div>
+          <div className="flex items-center gap-4 mb-4">
+            <LeaderboardIcon size={64} />
             <div>
               <h1 className="text-3xl font-display font-bold">Leaderboard</h1>
-              <p className="text-pink-100">See how you stack up against other traders!</p>
+              <p className="text-slate-400">See how you stack up against other traders!</p>
             </div>
           </div>
 
           {/* Your Ranking Card */}
-          <div className="mt-6 p-5 rounded-2xl bg-white/15 backdrop-blur-sm">
+          <div className="mt-6 p-5 rounded-2xl bg-navy-900/50 border border-white/10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="relative">
@@ -142,18 +143,18 @@ export default function LeaderboardPage() {
                   >
                     {username.charAt(0).toUpperCase()}
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-white flex items-center justify-center text-sm font-bold text-pink-600">
+                  <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-gold-400 flex items-center justify-center text-sm font-bold text-navy-900">
                     #{currentUserRank}
                   </div>
                 </div>
                 <div>
-                  <div className="font-bold text-xl">{username}</div>
-                  <div className="text-pink-200">Level {level} · {LEVEL_TITLES[Math.min(level - 1, LEVEL_TITLES.length - 1)]}</div>
+                  <div className="font-display font-bold text-xl">{username}</div>
+                  <div className="text-slate-400">Level {level} · {LEVEL_TITLES[Math.min(level - 1, LEVEL_TITLES.length - 1)]}</div>
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold">{getStatValue(currentUser)}</div>
-                <div className="text-pink-200 text-sm">
+                <div className="text-3xl font-display font-bold gradient-text">{getStatValue(currentUser)}</div>
+                <div className="text-slate-500 text-sm">
                   {activeTab === 'xp' && 'Total XP'}
                   {activeTab === 'portfolio' && 'Portfolio Value'}
                   {activeTab === 'streak' && 'Current Streak'}
@@ -165,7 +166,7 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Tab Selector */}
-      <div className="flex gap-2 p-1.5 rounded-2xl bg-slate-100">
+      <div className="flex gap-2 p-1.5 rounded-2xl bg-navy-800 border border-white/10">
         {tabs.map(tab => {
           const Icon = tab.icon
           const isActive = activeTab === tab.id
@@ -175,8 +176,8 @@ export default function LeaderboardPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all ${
                 isActive
-                  ? 'bg-white shadow-md text-slate-800'
-                  : 'text-slate-500 hover:text-slate-700'
+                  ? 'bg-navy-900 shadow-md text-cream-100 border border-white/10'
+                  : 'text-slate-400 hover:text-cream-100'
               }`}
             >
               <Icon className="w-5 h-5" style={{ color: isActive ? tab.color : undefined }} />
@@ -189,13 +190,13 @@ export default function LeaderboardPage() {
       {/* Top 3 Podium */}
       <div className="grid grid-cols-3 gap-4">
         {/* 2nd Place */}
-        <div className={`relative p-4 rounded-2xl border-2 ${
+        <div className={`relative p-4 rounded-2xl border ${
           sortedPlayers[1]?.isCurrentUser
-            ? 'bg-gradient-to-br from-pink-50 to-rose-50 border-pink-300'
-            : 'bg-slate-50 border-slate-200'
+            ? 'bg-navy-800 border-orange-500/30'
+            : 'bg-navy-800 border-white/10'
         }`}>
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-            <div className="w-8 h-8 rounded-full bg-slate-300 flex items-center justify-center shadow">
+            <div className="w-8 h-8 rounded-full bg-slate-400 flex items-center justify-center shadow">
               <span className="text-lg">🥈</span>
             </div>
           </div>
@@ -206,17 +207,17 @@ export default function LeaderboardPage() {
             >
               {sortedPlayers[1]?.username.charAt(0).toUpperCase()}
             </div>
-            <div className="font-bold text-slate-800 truncate">{sortedPlayers[1]?.username}</div>
+            <div className="font-display font-bold text-cream-100 truncate">{sortedPlayers[1]?.username}</div>
             <div className="text-sm text-slate-500">Level {sortedPlayers[1]?.level}</div>
-            <div className="mt-2 font-bold text-slate-700">{sortedPlayers[1] && getStatValue(sortedPlayers[1])}</div>
+            <div className="mt-2 font-display font-bold text-slate-300">{sortedPlayers[1] && getStatValue(sortedPlayers[1])}</div>
           </div>
         </div>
 
         {/* 1st Place */}
-        <div className={`relative p-4 rounded-2xl border-2 -mt-4 ${
+        <div className={`relative p-4 rounded-2xl border -mt-4 ${
           sortedPlayers[0]?.isCurrentUser
-            ? 'bg-gradient-to-br from-pink-50 to-rose-50 border-pink-300'
-            : 'bg-gradient-to-br from-amber-50 to-yellow-50 border-amber-300'
+            ? 'bg-gradient-to-br from-orange-500/20 to-navy-800 border-orange-500/30'
+            : 'bg-gradient-to-br from-gold-500/20 to-navy-800 border-gold-500/30'
         }`}>
           <div className="absolute -top-4 left-1/2 -translate-x-1/2">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg">
@@ -230,17 +231,17 @@ export default function LeaderboardPage() {
             >
               {sortedPlayers[0]?.username.charAt(0).toUpperCase()}
             </div>
-            <div className="font-bold text-lg text-slate-800 truncate">{sortedPlayers[0]?.username}</div>
-            <div className="text-sm text-amber-600">Level {sortedPlayers[0]?.level}</div>
-            <div className="mt-2 font-bold text-lg text-amber-700">{sortedPlayers[0] && getStatValue(sortedPlayers[0])}</div>
+            <div className="font-display font-bold text-lg text-cream-100 truncate">{sortedPlayers[0]?.username}</div>
+            <div className="text-sm text-gold-400">Level {sortedPlayers[0]?.level}</div>
+            <div className="mt-2 font-display font-bold text-lg text-gold-400">{sortedPlayers[0] && getStatValue(sortedPlayers[0])}</div>
           </div>
         </div>
 
         {/* 3rd Place */}
-        <div className={`relative p-4 rounded-2xl border-2 ${
+        <div className={`relative p-4 rounded-2xl border ${
           sortedPlayers[2]?.isCurrentUser
-            ? 'bg-gradient-to-br from-pink-50 to-rose-50 border-pink-300'
-            : 'bg-slate-50 border-slate-200'
+            ? 'bg-navy-800 border-orange-500/30'
+            : 'bg-navy-800 border-white/10'
         }`}>
           <div className="absolute -top-3 left-1/2 -translate-x-1/2">
             <div className="w-8 h-8 rounded-full bg-amber-600 flex items-center justify-center shadow">
@@ -254,23 +255,23 @@ export default function LeaderboardPage() {
             >
               {sortedPlayers[2]?.username.charAt(0).toUpperCase()}
             </div>
-            <div className="font-bold text-slate-800 truncate">{sortedPlayers[2]?.username}</div>
+            <div className="font-display font-bold text-cream-100 truncate">{sortedPlayers[2]?.username}</div>
             <div className="text-sm text-slate-500">Level {sortedPlayers[2]?.level}</div>
-            <div className="mt-2 font-bold text-slate-700">{sortedPlayers[2] && getStatValue(sortedPlayers[2])}</div>
+            <div className="mt-2 font-display font-bold text-slate-300">{sortedPlayers[2] && getStatValue(sortedPlayers[2])}</div>
           </div>
         </div>
       </div>
 
       {/* Full Rankings */}
-      <div className="rounded-2xl border-2 border-slate-200 overflow-hidden bg-white">
-        <div className="p-4 border-b border-slate-100 bg-slate-50">
+      <div className="rounded-2xl border border-white/10 overflow-hidden bg-navy-800">
+        <div className="p-4 border-b border-white/10 bg-navy-900/50">
           <div className="flex items-center gap-2">
-            <Globe className="w-5 h-5 text-slate-600" />
-            <h2 className="font-bold text-slate-800">Global Rankings</h2>
+            <Globe className="w-5 h-5 text-slate-400" />
+            <h2 className="font-display font-bold text-cream-100">Global Rankings</h2>
           </div>
         </div>
 
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-white/10">
           {sortedPlayers.slice(3).map((player, index) => {
             const rank = index + 4
             return (
@@ -278,13 +279,13 @@ export default function LeaderboardPage() {
                 key={player.id}
                 className={`flex items-center gap-4 p-4 transition-colors ${
                   player.isCurrentUser
-                    ? 'bg-gradient-to-r from-pink-50 to-transparent border-l-4 border-pink-500'
-                    : 'hover:bg-slate-50'
+                    ? 'bg-gradient-to-r from-orange-500/20 to-transparent border-l-4 border-orange-500'
+                    : 'hover:bg-white/5'
                 }`}
               >
                 {/* Rank */}
                 <div className="w-10 text-center">
-                  {getRankIcon(rank)}
+                  <span className="text-lg font-display font-bold text-slate-500">#{rank}</span>
                 </div>
 
                 {/* Change indicator */}
@@ -301,9 +302,9 @@ export default function LeaderboardPage() {
                     {player.username.charAt(0).toUpperCase()}
                   </div>
                   <div className="min-w-0">
-                    <div className={`font-semibold truncate ${player.isCurrentUser ? 'text-pink-700' : 'text-slate-800'}`}>
+                    <div className={`font-display font-semibold truncate ${player.isCurrentUser ? 'text-orange-400' : 'text-cream-100'}`}>
                       {player.username}
-                      {player.isCurrentUser && <span className="ml-2 text-xs text-pink-500">(You)</span>}
+                      {player.isCurrentUser && <span className="ml-2 text-xs text-orange-400/70">(You)</span>}
                     </div>
                     <div className="text-sm text-slate-500">
                       Level {player.level} · {player.badges} badges
@@ -313,7 +314,7 @@ export default function LeaderboardPage() {
 
                 {/* Stat */}
                 <div className="text-right">
-                  <div className={`font-bold ${player.isCurrentUser ? 'text-pink-700' : 'text-slate-700'}`}>
+                  <div className={`font-display font-bold ${player.isCurrentUser ? 'text-orange-400' : 'text-slate-300'}`}>
                     {getStatValue(player)}
                   </div>
                 </div>
@@ -324,14 +325,12 @@ export default function LeaderboardPage() {
       </div>
 
       {/* Motivational Card */}
-      <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
+      <div className="p-6 rounded-2xl bg-navy-800 border border-teal-500/30">
         <div className="flex items-start gap-4">
-          <div className="p-3 rounded-2xl bg-indigo-100">
-            <Target className="w-6 h-6 text-indigo-600" />
-          </div>
+          <GoalIcon size={56} />
           <div>
-            <h3 className="font-bold text-indigo-800 text-lg">Keep Climbing!</h3>
-            <p className="text-indigo-600 mt-1">
+            <h3 className="font-display font-bold text-teal-400 text-lg">Keep Climbing!</h3>
+            <p className="text-slate-300 mt-1">
               {currentUserRank <= 3
                 ? "Amazing! You're in the top 3! Keep trading and learning to stay on top!"
                 : currentUserRank <= 6
@@ -340,10 +339,10 @@ export default function LeaderboardPage() {
               }
             </p>
             <div className="flex gap-3 mt-3">
-              <div className="px-3 py-1.5 rounded-full bg-indigo-100 text-sm font-medium text-indigo-700">
+              <div className="px-3 py-1.5 rounded-full bg-teal-500/20 text-sm font-medium text-teal-400 border border-teal-500/30">
                 +25 XP per trade
               </div>
-              <div className="px-3 py-1.5 rounded-full bg-indigo-100 text-sm font-medium text-indigo-700">
+              <div className="px-3 py-1.5 rounded-full bg-orange-500/20 text-sm font-medium text-orange-400 border border-orange-500/30">
                 +50 XP per lesson
               </div>
             </div>

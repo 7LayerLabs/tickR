@@ -8,17 +8,11 @@ import {
   ArrowDownRight,
   TrendingUp,
   TrendingDown,
-  Wallet,
-  PieChart,
   Zap,
   ChevronRight,
-  Sparkles,
   Target,
-  Award,
   ArrowRight,
-  Trophy,
   Clock,
-  Gift,
   CheckCircle2,
   Star,
   X,
@@ -26,6 +20,15 @@ import {
   Plus,
   AlertCircle
 } from 'lucide-react'
+import {
+  PortfolioIcon,
+  WalletIcon,
+  TrophyIcon,
+  LearnIcon,
+  StockIcon,
+  GoalIcon,
+  RocketIcon,
+} from '@/components/icons/TickRIcons'
 
 const SECTOR_COLORS: Record<string, string> = {
   Technology: '#10b981',
@@ -381,22 +384,24 @@ export default function PortfolioPage() {
     return (
       <div className="space-y-6">
         {/* Welcome Hero for New Users */}
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 p-8 text-white border border-black/20">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500/20 via-navy-800 to-navy-900 p-8 text-cream-100 border border-orange-500/30">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
           <div className="relative text-center py-8">
-            <div className="text-6xl mb-4">🚀</div>
-            <h1 className="text-4xl font-display font-bold mb-2">Welcome to TickR!</h1>
-            <p className="text-xl text-white/80 mb-6">
-              You have <span className="font-bold text-yellow-300">${cashBalance.toLocaleString()}</span> to start investing
+            <div className="flex justify-center mb-4">
+              <RocketIcon size={80} />
+            </div>
+            <h1 className="text-4xl font-display font-bold mb-2">Welcome to <span className="text-orange-400">TickR!</span></h1>
+            <p className="text-xl text-slate-300 mb-6">
+              You have <span className="font-bold text-gold-400">${cashBalance.toLocaleString()}</span> to start investing
             </p>
 
             <div className="flex items-center justify-center gap-4">
               <Link
                 href="/dashboard/stocks"
-                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-emerald-600 font-bold text-lg hover:shadow-lg transition-all"
+                className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold text-lg hover:shadow-glow-orange transition-all"
               >
-                <TrendingUp className="w-6 h-6" />
+                <StockIcon size={32} />
                 Buy Your First Stock
                 <ArrowRight className="w-5 h-5" />
               </Link>
@@ -405,58 +410,58 @@ export default function PortfolioPage() {
         </div>
 
         {/* Getting Started Guide */}
-        <div className="p-6 rounded-3xl bg-white border-2 border-slate-100">
-          <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-            <Star className="w-6 h-6 text-amber-500" />
+        <div className="p-6 rounded-3xl bg-navy-800 border border-white/10">
+          <h2 className="text-xl font-display font-bold text-cream-100 mb-6 flex items-center gap-2">
+            <Star className="w-6 h-6 text-gold-400" />
             Getting Started
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border-2 border-blue-200">
+            <div className="p-5 rounded-2xl bg-navy-900/50 border border-white/10 hover:border-teal-500/30 transition-all">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center text-white font-bold">1</div>
-                <h3 className="font-bold text-slate-800">Explore Stocks</h3>
+                <StockIcon size={40} />
+                <h3 className="font-display font-bold text-cream-100">Explore Stocks</h3>
               </div>
-              <p className="text-sm text-slate-600">Browse companies you know like Apple, Tesla, Netflix, and Roblox.</p>
+              <p className="text-sm text-slate-400">Browse companies you know like Apple, Tesla, Netflix, and Roblox.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200">
+            <div className="p-5 rounded-2xl bg-navy-900/50 border border-white/10 hover:border-teal-500/30 transition-all">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white font-bold">2</div>
-                <h3 className="font-bold text-slate-800">Buy Shares</h3>
+                <WalletIcon size={40} />
+                <h3 className="font-display font-bold text-cream-100">Buy Shares</h3>
               </div>
-              <p className="text-sm text-slate-600">Use your $10,000 to buy shares of companies you believe in.</p>
+              <p className="text-sm text-slate-400">Use your $10,000 to buy shares of companies you believe in.</p>
             </div>
 
-            <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200">
+            <div className="p-5 rounded-2xl bg-navy-900/50 border border-white/10 hover:border-orange-500/30 transition-all">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500 flex items-center justify-center text-white font-bold">3</div>
-                <h3 className="font-bold text-slate-800">Learn & Earn</h3>
+                <LearnIcon size={40} />
+                <h3 className="font-display font-bold text-cream-100">Learn & Earn</h3>
               </div>
-              <p className="text-sm text-slate-600">Complete lessons and quizzes to earn XP and level up!</p>
+              <p className="text-sm text-slate-400">Complete lessons and quizzes to earn XP and level up!</p>
             </div>
           </div>
         </div>
 
         {/* Daily Challenges for New Users */}
         {activeChallenges.length > 0 && (
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200">
-            <div className="flex items-center gap-2 mb-4">
-              <Gift className="w-6 h-6 text-amber-600" />
-              <h2 className="text-xl font-bold text-amber-800">Daily Challenges</h2>
-              <span className="text-sm text-amber-600">Earn XP!</span>
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-orange-500/20 to-navy-800 border border-orange-500/30">
+            <div className="flex items-center gap-3 mb-4">
+              <TrophyIcon size={40} />
+              <h2 className="text-xl font-display font-bold text-cream-100">Daily Challenges</h2>
+              <span className="text-sm text-orange-400 font-semibold">Earn XP!</span>
             </div>
 
             <div className="space-y-3">
               {activeChallenges.map(challenge => (
-                <div key={challenge.id} className="flex items-center justify-between p-4 rounded-2xl bg-white border border-amber-200">
+                <div key={challenge.id} className="flex items-center justify-between p-4 rounded-2xl bg-navy-900/50 border border-white/10">
                   <div>
-                    <div className="font-bold text-slate-800">{challenge.title}</div>
-                    <div className="text-sm text-slate-500">{challenge.description}</div>
+                    <div className="font-display font-bold text-cream-100">{challenge.title}</div>
+                    <div className="text-sm text-slate-400">{challenge.description}</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-bold text-amber-600">+{challenge.xpReward} XP</div>
-                    <div className="text-sm text-slate-400">{challenge.progress}/{challenge.target}</div>
+                    <div className="font-bold text-orange-400">+{challenge.xpReward} XP</div>
+                    <div className="text-sm text-slate-500">{challenge.progress}/{challenge.target}</div>
                   </div>
                 </div>
               ))}
@@ -492,56 +497,56 @@ export default function PortfolioPage() {
       )}
 
       {/* Portfolio Value Hero */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 p-8 text-white border border-black/20">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-teal-500/20 via-navy-800 to-navy-900 p-8 text-cream-100 border border-teal-500/30">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
         <div className="relative">
-          <div className="flex items-center gap-2 mb-2">
-            <Sparkles className="w-5 h-5 text-yellow-300" />
-            <span className="text-sm font-semibold text-white/80 uppercase tracking-wider">Total Portfolio Value</span>
+          <div className="flex items-center gap-3 mb-2">
+            <PortfolioIcon size={48} />
+            <span className="text-sm font-semibold text-slate-400 uppercase tracking-wider">Total Portfolio Value</span>
           </div>
 
           <div className="flex items-end gap-6 mb-6">
-            <h1 className="text-5xl font-display font-bold">${portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${totalGainLoss >= 0 ? 'bg-white/20' : 'bg-red-500/30'}`}>
-              {totalGainLoss >= 0 ? <ArrowUpRight className="w-5 h-5" /> : <ArrowDownRight className="w-5 h-5" />}
-              <span className="font-bold text-lg">
+            <h1 className="text-5xl font-display font-bold gradient-text">${portfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</h1>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-xl ${totalGainLoss >= 0 ? 'bg-teal-500/20 border border-teal-500/30' : 'bg-coral-500/20 border border-coral-500/30'}`}>
+              {totalGainLoss >= 0 ? <ArrowUpRight className="w-5 h-5 text-teal-400" /> : <ArrowDownRight className="w-5 h-5 text-coral-400" />}
+              <span className={`font-bold text-lg ${totalGainLoss >= 0 ? 'text-teal-400' : 'text-coral-400'}`}>
                 {totalGainLoss >= 0 ? '+' : ''}${Math.abs(totalGainLoss).toFixed(2)} ({totalGainLossPercent.toFixed(2)}%)
               </span>
-              <span className="text-white/70 text-sm">total</span>
+              <span className="text-slate-500 text-sm">total</span>
             </div>
           </div>
 
           {/* Stats Row */}
           <div className="grid grid-cols-4 gap-4">
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
-                <Wallet className="w-4 h-4" />
-                Cash Available
+            <div className="p-4 rounded-2xl bg-navy-900/50 border border-white/10">
+              <div className="flex items-center gap-2 mb-2">
+                <WalletIcon size={32} />
               </div>
-              <div className="text-2xl font-bold">${cashBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+              <div className="text-xs text-slate-400 mb-1">Cash Available</div>
+              <div className="text-xl font-display font-bold text-teal-400">${cashBalance.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
-                <PieChart className="w-4 h-4" />
-                Invested
+            <div className="p-4 rounded-2xl bg-navy-900/50 border border-white/10">
+              <div className="flex items-center gap-2 mb-2">
+                <StockIcon size={32} />
               </div>
-              <div className="text-2xl font-bold">${investedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
+              <div className="text-xs text-slate-400 mb-1">Invested</div>
+              <div className="text-xl font-display font-bold text-cream-100">${investedValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
-                <Trophy className="w-4 h-4" />
-                Level {level}
+            <div className="p-4 rounded-2xl bg-navy-900/50 border border-white/10">
+              <div className="flex items-center gap-2 mb-2">
+                <TrophyIcon size={32} />
               </div>
-              <div className="text-2xl font-bold">{title}</div>
+              <div className="text-xs text-slate-400 mb-1">Level {level}</div>
+              <div className="text-xl font-display font-bold text-gold-400">{title}</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-sm">
-              <div className="flex items-center gap-2 text-white/70 text-sm mb-1">
-                <Zap className="w-4 h-4" />
+            <div className="p-4 rounded-2xl bg-navy-900/50 border border-white/10">
+              <div className="flex items-center gap-2 text-slate-400 text-sm mb-1">
+                <Zap className="w-4 h-4 text-orange-400" />
                 Streak
               </div>
-              <div className="text-2xl font-bold">{currentStreak} 🔥</div>
+              <div className="text-xl font-display font-bold text-orange-400">{currentStreak} 🔥</div>
             </div>
           </div>
         </div>
@@ -549,13 +554,13 @@ export default function PortfolioPage() {
 
       {/* Daily Challenges */}
       {(activeChallenges.length > 0 || completedChallenges.length > 0) && (
-        <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200">
+        <div className="p-6 rounded-3xl bg-gradient-to-br from-orange-500/20 to-navy-800 border border-orange-500/30">
           <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Gift className="w-6 h-6 text-amber-600" />
-              <h2 className="text-xl font-bold text-amber-800">Daily Challenges</h2>
+            <div className="flex items-center gap-3">
+              <TrophyIcon size={40} />
+              <h2 className="text-xl font-display font-bold text-cream-100">Daily Challenges</h2>
             </div>
-            <div className="text-sm text-amber-600">
+            <div className="text-sm text-orange-400 font-semibold">
               {completedChallenges.length}/{dailyChallenges.length} completed
             </div>
           </div>
@@ -564,26 +569,26 @@ export default function PortfolioPage() {
             {dailyChallenges.map(challenge => (
               <div
                 key={challenge.id}
-                className={`p-4 rounded-2xl border-2 transition-all ${
+                className={`p-4 rounded-2xl border transition-all ${
                   challenge.completed
-                    ? 'bg-emerald-50 border-emerald-300'
-                    : 'bg-white border-amber-200'
+                    ? 'bg-teal-500/20 border-teal-500/30'
+                    : 'bg-navy-900/50 border-white/10'
                 }`}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-slate-800">{challenge.title}</span>
+                  <span className="font-display font-bold text-cream-100">{challenge.title}</span>
                   {challenge.completed ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                    <CheckCircle2 className="w-5 h-5 text-teal-400" />
                   ) : (
-                    <span className="text-xs font-bold text-amber-600">+{challenge.xpReward} XP</span>
+                    <span className="text-xs font-bold text-orange-400">+{challenge.xpReward} XP</span>
                   )}
                 </div>
-                <p className="text-sm text-slate-500 mb-2">{challenge.description}</p>
+                <p className="text-sm text-slate-400 mb-2">{challenge.description}</p>
                 <div className="flex items-center gap-2">
-                  <div className="flex-1 h-2 rounded-full bg-slate-200 overflow-hidden">
+                  <div className="flex-1 h-2 rounded-full bg-navy-900 overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all ${
-                        challenge.completed ? 'bg-emerald-500' : 'bg-amber-500'
+                        challenge.completed ? 'bg-teal-400' : 'bg-orange-500'
                       }`}
                       style={{ width: `${Math.min(100, (challenge.progress / challenge.target) * 100)}%` }}
                     />
@@ -602,27 +607,23 @@ export default function PortfolioPage() {
       <div className="grid grid-cols-2 gap-4">
         <Link
           href="/dashboard/stocks"
-          className="flex items-center justify-between p-5 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold hover:shadow-lg hover:shadow-blue-200 transition-all group border border-black/20"
+          className="flex items-center justify-between p-5 rounded-2xl bg-navy-800 border border-teal-500/30 hover:border-teal-500/50 hover:shadow-glow-teal transition-all group"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-white/20">
-              <TrendingUp className="w-6 h-6" />
-            </div>
-            <span className="text-lg">Buy Stocks</span>
+            <StockIcon size={48} />
+            <span className="text-lg font-display font-bold text-cream-100">Buy Stocks</span>
           </div>
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-5 h-5 text-teal-400 group-hover:translate-x-1 transition-transform" />
         </Link>
         <Link
           href="/dashboard/learn"
-          className="flex items-center justify-between p-5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold hover:shadow-lg hover:shadow-amber-200 transition-all group border border-black/20"
+          className="flex items-center justify-between p-5 rounded-2xl bg-navy-800 border border-orange-500/30 hover:border-orange-500/50 hover:shadow-glow-orange transition-all group"
         >
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-white/20">
-              <Zap className="w-6 h-6" />
-            </div>
-            <span className="text-lg">Learn & Earn XP</span>
+            <LearnIcon size={48} />
+            <span className="text-lg font-display font-bold text-cream-100">Learn & Earn XP</span>
           </div>
-          <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight className="w-5 h-5 text-orange-400 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
 
@@ -630,23 +631,23 @@ export default function PortfolioPage() {
       {topGainer && topLoser && (
         <div className="grid grid-cols-2 gap-4">
           {/* Top Gainer */}
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-200">
+          <div className="p-5 rounded-2xl bg-navy-800 border border-teal-500/30">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 rounded-xl bg-emerald-500">
-                <TrendingUp className="w-4 h-4 text-white" />
+              <div className="p-2 rounded-xl bg-teal-500/20">
+                <TrendingUp className="w-4 h-4 text-teal-400" />
               </div>
-              <span className="font-semibold text-emerald-700">Top Performer</span>
+              <span className="font-display font-semibold text-teal-400">Top Performer</span>
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-slate-800">{topGainer.ticker}</div>
-                <div className="text-sm text-slate-500">{topGainer.companyName}</div>
+                <div className="text-2xl font-display font-bold text-cream-100">{topGainer.ticker}</div>
+                <div className="text-sm text-slate-400">{topGainer.companyName}</div>
               </div>
               <div className="text-right">
-                <div className="text-2xl font-bold text-emerald-600">
+                <div className="text-2xl font-display font-bold text-teal-400">
                   {topGainer.totalGainPercent >= 0 ? '+' : ''}{topGainer.totalGainPercent.toFixed(2)}%
                 </div>
-                <div className="text-sm text-emerald-600">
+                <div className="text-sm text-teal-400/70">
                   {topGainer.totalGain >= 0 ? '+' : ''}${topGainer.totalGain.toFixed(2)}
                 </div>
               </div>
@@ -654,23 +655,23 @@ export default function PortfolioPage() {
           </div>
 
           {/* Top Loser */}
-          <div className="p-5 rounded-2xl bg-gradient-to-br from-red-50 to-rose-50 border-2 border-red-200">
+          <div className="p-5 rounded-2xl bg-navy-800 border border-coral-500/30">
             <div className="flex items-center gap-2 mb-3">
-              <div className="p-2 rounded-xl bg-red-500">
-                <TrendingDown className="w-4 h-4 text-white" />
+              <div className="p-2 rounded-xl bg-coral-500/20">
+                <TrendingDown className="w-4 h-4 text-coral-400" />
               </div>
-              <span className="font-semibold text-red-700">Needs Attention</span>
+              <span className="font-display font-semibold text-coral-400">Needs Attention</span>
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-2xl font-bold text-slate-800">{topLoser.ticker}</div>
-                <div className="text-sm text-slate-500">{topLoser.companyName}</div>
+                <div className="text-2xl font-display font-bold text-cream-100">{topLoser.ticker}</div>
+                <div className="text-sm text-slate-400">{topLoser.companyName}</div>
               </div>
               <div className="text-right">
-                <div className={`text-2xl font-bold ${topLoser.totalGainPercent >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                <div className={`text-2xl font-display font-bold ${topLoser.totalGainPercent >= 0 ? 'text-teal-400' : 'text-coral-400'}`}>
                   {topLoser.totalGainPercent >= 0 ? '+' : ''}{topLoser.totalGainPercent.toFixed(2)}%
                 </div>
-                <div className={`text-sm ${topLoser.totalGain >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
+                <div className={`text-sm ${topLoser.totalGain >= 0 ? 'text-teal-400/70' : 'text-coral-400/70'}`}>
                   {topLoser.totalGain >= 0 ? '+' : ''}${topLoser.totalGain.toFixed(2)}
                 </div>
               </div>
@@ -680,27 +681,27 @@ export default function PortfolioPage() {
       )}
 
       {/* Holdings */}
-      <div className="bg-white rounded-3xl border-2 border-slate-100 overflow-hidden">
-        <div className="p-6 border-b border-slate-100">
+      <div className="bg-navy-800 rounded-3xl border border-white/10 overflow-hidden">
+        <div className="p-6 border-b border-white/10">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-              <Award className="w-6 h-6 text-amber-500" />
+            <h2 className="text-xl font-display font-bold text-cream-100 flex items-center gap-3">
+              <PortfolioIcon size={40} />
               Your Holdings
             </h2>
-            <span className="px-3 py-1 rounded-full text-sm font-semibold bg-slate-100 text-slate-600">
+            <span className="px-3 py-1 rounded-full text-sm font-semibold bg-navy-900 text-slate-300 border border-white/10">
               {positions.length} stocks
             </span>
           </div>
         </div>
 
-        <div className="divide-y divide-slate-100">
+        <div className="divide-y divide-white/10">
           {sortedPositions.map((position) => {
             const isPositive = position.totalGain >= 0
 
             return (
               <div
                 key={position.ticker}
-                className="flex items-center gap-5 p-5 hover:bg-slate-50 transition-colors group"
+                className="flex items-center gap-5 p-5 hover:bg-white/5 transition-colors group"
               >
                 {/* Ticker Badge - Clickable to view details */}
                 <Link href={`/dashboard/stock/${position.ticker}`}>
@@ -715,26 +716,26 @@ export default function PortfolioPage() {
                 {/* Stock Info - Clickable to view details */}
                 <Link href={`/dashboard/stock/${position.ticker}`} className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-lg text-slate-800 hover:text-emerald-600 transition-colors">{position.ticker}</span>
-                    <span className="text-sm text-slate-400">·</span>
-                    <span className="text-sm text-slate-500">{position.shares} shares</span>
+                    <span className="font-display font-bold text-lg text-cream-100 hover:text-orange-400 transition-colors">{position.ticker}</span>
+                    <span className="text-sm text-slate-500">·</span>
+                    <span className="text-sm text-slate-400">{position.shares} shares</span>
                   </div>
                   <div className="text-sm text-slate-500 truncate">{position.companyName}</div>
                 </Link>
 
                 {/* Price */}
                 <div className="text-right">
-                  <div className="text-lg font-bold text-slate-800">${position.currentPrice.toFixed(2)}</div>
-                  <div className="text-sm text-slate-400">
+                  <div className="text-lg font-display font-bold text-cream-100">${position.currentPrice.toFixed(2)}</div>
+                  <div className="text-sm text-slate-500">
                     avg ${position.avgCost.toFixed(2)}
                   </div>
                 </div>
 
                 {/* Value & Gain */}
                 <div className="text-right min-w-[100px]">
-                  <div className="text-lg font-bold text-slate-800">${position.currentValue.toFixed(2)}</div>
+                  <div className="text-lg font-display font-bold text-cream-100">${position.currentValue.toFixed(2)}</div>
                   <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-sm font-bold ${
-                    isPositive ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                    isPositive ? 'bg-teal-500/20 text-teal-400' : 'bg-coral-500/20 text-coral-400'
                   }`}>
                     {isPositive ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
                     {isPositive ? '+' : ''}{position.totalGainPercent.toFixed(2)}%
@@ -747,14 +748,14 @@ export default function PortfolioPage() {
                     e.preventDefault()
                     setSellModalPosition(position)
                   }}
-                  className="px-4 py-2 rounded-xl bg-red-100 text-red-600 font-bold text-sm hover:bg-red-500 hover:text-white transition-all"
+                  className="px-4 py-2 rounded-xl bg-coral-500/20 text-coral-400 font-bold text-sm hover:bg-coral-500 hover:text-white transition-all border border-coral-500/30"
                 >
                   Sell
                 </button>
 
                 {/* Arrow to stock page */}
                 <Link href={`/dashboard/stock/${position.ticker}`}>
-                  <ChevronRight className="w-5 h-5 text-slate-300 hover:text-slate-500 hover:translate-x-1 transition-all cursor-pointer" />
+                  <ChevronRight className="w-5 h-5 text-slate-500 hover:text-orange-400 hover:translate-x-1 transition-all cursor-pointer" />
                 </Link>
               </div>
             )
@@ -764,38 +765,38 @@ export default function PortfolioPage() {
 
       {/* Recent Trades */}
       {recentTrades.length > 0 && (
-        <div className="p-6 rounded-3xl bg-white border-2 border-slate-100">
+        <div className="p-6 rounded-3xl bg-navy-800 border border-white/10">
           <div className="flex items-center gap-2 mb-4">
             <Clock className="w-5 h-5 text-slate-400" />
-            <h2 className="text-lg font-bold text-slate-800">Recent Trades</h2>
+            <h2 className="text-lg font-display font-bold text-cream-100">Recent Trades</h2>
           </div>
           <div className="space-y-3">
             {recentTrades.map(trade => (
-              <div key={trade.id} className="flex items-center justify-between p-3 rounded-xl bg-slate-50">
+              <div key={trade.id} className="flex items-center justify-between p-3 rounded-xl bg-navy-900/50 border border-white/5">
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                    trade.type === 'buy' ? 'bg-emerald-100' : 'bg-red-100'
+                    trade.type === 'buy' ? 'bg-teal-500/20' : 'bg-coral-500/20'
                   }`}>
                     {trade.type === 'buy' ? (
-                      <ArrowUpRight className="w-5 h-5 text-emerald-600" />
+                      <ArrowUpRight className="w-5 h-5 text-teal-400" />
                     ) : (
-                      <ArrowDownRight className="w-5 h-5 text-red-600" />
+                      <ArrowDownRight className="w-5 h-5 text-coral-400" />
                     )}
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-800">
+                    <div className="font-display font-semibold text-cream-100">
                       {trade.type === 'buy' ? 'Bought' : 'Sold'} {trade.shares} {trade.ticker}
                     </div>
-                    <div className="text-sm text-slate-400">
+                    <div className="text-sm text-slate-500">
                       {new Date(trade.timestamp).toLocaleDateString()}
                     </div>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className={`font-bold ${trade.type === 'buy' ? 'text-red-600' : 'text-emerald-600'}`}>
+                  <div className={`font-display font-bold ${trade.type === 'buy' ? 'text-coral-400' : 'text-teal-400'}`}>
                     {trade.type === 'buy' ? '-' : '+'}${trade.total.toFixed(2)}
                   </div>
-                  <div className="text-sm text-slate-400">@${trade.price.toFixed(2)}</div>
+                  <div className="text-sm text-slate-500">@${trade.price.toFixed(2)}</div>
                 </div>
               </div>
             ))}
@@ -805,12 +806,10 @@ export default function PortfolioPage() {
 
       {/* Sector Diversification */}
       {Object.keys(sectorBreakdown).length > 0 && (
-        <div className="p-6 rounded-3xl bg-white border-2 border-slate-100">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
-              <Target className="w-5 h-5 text-white" />
-            </div>
-            <h2 className="text-xl font-bold text-slate-800">Sector Diversification</h2>
+        <div className="p-6 rounded-3xl bg-navy-800 border border-white/10">
+          <div className="flex items-center gap-3 mb-6">
+            <GoalIcon size={40} />
+            <h2 className="text-xl font-display font-bold text-cream-100">Sector Diversification</h2>
           </div>
 
           <div className="space-y-4">
@@ -823,13 +822,13 @@ export default function PortfolioPage() {
                 return (
                   <div key={sector}>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="font-semibold text-slate-700">{sector}</span>
+                      <span className="font-display font-semibold text-cream-100">{sector}</span>
                       <div className="text-right">
-                        <span className="font-bold text-slate-800">{percentage.toFixed(1)}%</span>
-                        <span className="text-slate-400 text-sm ml-2">${(value as number).toFixed(0)}</span>
+                        <span className="font-display font-bold text-cream-100">{percentage.toFixed(1)}%</span>
+                        <span className="text-slate-500 text-sm ml-2">${(value as number).toFixed(0)}</span>
                       </div>
                     </div>
-                    <div className="h-3 rounded-full bg-slate-100 overflow-hidden">
+                    <div className="h-3 rounded-full bg-navy-900 overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{
@@ -844,12 +843,12 @@ export default function PortfolioPage() {
           </div>
 
           {/* Diversification Tips */}
-          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200">
+          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-orange-500/20 to-navy-900 border border-orange-500/30">
             <div className="flex items-start gap-3">
               <span className="text-2xl">💡</span>
               <div>
-                <p className="font-semibold text-amber-800 mb-1">Diversification Tip</p>
-                <p className="text-sm text-amber-700">
+                <p className="font-display font-semibold text-orange-400 mb-1">Diversification Tip</p>
+                <p className="text-sm text-slate-300">
                   {Object.keys(sectorBreakdown).length < 3
                     ? "Consider adding stocks from more sectors to reduce risk. Having investments across different industries helps protect your portfolio!"
                     : Object.values(sectorBreakdown).some(v => investedValue > 0 && ((v as number) / investedValue) > 0.5)
@@ -864,25 +863,25 @@ export default function PortfolioPage() {
 
       {/* Portfolio Stats Footer */}
       <div className="grid grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 text-center">
-          <div className="text-3xl font-bold text-blue-600">{positions.length}</div>
-          <div className="text-sm text-slate-600 font-medium">Stocks Owned</div>
+        <div className="p-5 rounded-2xl bg-navy-800 border border-white/10 text-center">
+          <div className="text-3xl font-display font-bold text-teal-400">{positions.length}</div>
+          <div className="text-sm text-slate-400 font-medium">Stocks Owned</div>
         </div>
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-violet-50 border border-purple-200 text-center">
-          <div className="text-3xl font-bold text-purple-600">{totalTrades}</div>
-          <div className="text-sm text-slate-600 font-medium">Total Trades</div>
+        <div className="p-5 rounded-2xl bg-navy-800 border border-white/10 text-center">
+          <div className="text-3xl font-display font-bold text-cream-100">{totalTrades}</div>
+          <div className="text-sm text-slate-400 font-medium">Total Trades</div>
         </div>
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-green-50 border border-emerald-200 text-center">
-          <div className="text-3xl font-bold text-emerald-600">
+        <div className="p-5 rounded-2xl bg-navy-800 border border-white/10 text-center">
+          <div className="text-3xl font-display font-bold text-teal-400">
             {positionsWithData.filter(p => p.totalGain > 0).length}
           </div>
-          <div className="text-sm text-slate-600 font-medium">Winners</div>
+          <div className="text-sm text-slate-400 font-medium">Winners</div>
         </div>
-        <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 text-center">
-          <div className={`text-3xl font-bold ${totalGainLoss >= 0 ? 'text-amber-600' : 'text-red-600'}`}>
+        <div className="p-5 rounded-2xl bg-navy-800 border border-white/10 text-center">
+          <div className={`text-3xl font-display font-bold ${totalGainLoss >= 0 ? 'text-gold-400' : 'text-coral-400'}`}>
             {totalGainLoss >= 0 ? '+' : ''}${totalGainLoss.toFixed(0)}
           </div>
-          <div className="text-sm text-slate-600 font-medium">Total Profit</div>
+          <div className="text-sm text-slate-400 font-medium">Total Profit</div>
         </div>
       </div>
     </div>
