@@ -12,9 +12,7 @@ import {
   ChevronUp,
   ChevronDown,
   Minus,
-  Users,
   Globe,
-  Sparkles,
   Target
 } from 'lucide-react'
 

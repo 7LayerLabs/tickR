@@ -75,7 +75,6 @@ const STOCK_DATABASE: Record<string, { name: string; sector: string; description
   TGT: { name: 'Target Corporation', sector: 'Consumer', description: 'Retail stores with everything you need.', whyKidsKnow: 'Target runs with mom!' },
   WMT: { name: 'Walmart', sector: 'Consumer', description: 'Biggest retail store chain in the world.', whyKidsKnow: 'Walmart has everything!' },
   COST: { name: 'Costco Wholesale', sector: 'Consumer', description: 'Membership warehouse with bulk items.', whyKidsKnow: 'Giant store with free samples!' },
-  AMZN: { name: 'Amazon.com', sector: 'Consumer', description: 'Online shopping giant with fast delivery.', whyKidsKnow: 'Two-day shipping on everything!' },
   ETSY: { name: 'Etsy', sector: 'Consumer', description: 'Marketplace for handmade and vintage items.', whyKidsKnow: 'Unique handmade stuff and custom gifts!' },
   BURL: { name: 'Burlington Stores', sector: 'Consumer', description: 'Off-price retail stores.', whyKidsKnow: 'Deals on clothes and home stuff!' },
 

@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { useGameStore, useLevelInfo, usePortfolioStats, LEVEL_TITLES, LEVEL_THRESHOLDS } from '@/lib/game.store'
 import {
-  User,
   Edit3,
   Check,
   X,
@@ -12,20 +11,13 @@ import {
   BookOpen,
   Flame,
   Calendar,
-  Target,
   Zap,
-  Award,
   ChevronRight,
-  Sparkles,
   Crown,
-  Star,
-  Shield,
   Rocket,
-  Gift,
   Clock,
   BarChart3,
-  Wallet,
-  PiggyBank
+  Wallet
 } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -97,7 +89,6 @@ export default function ProfilePage() {
     (new Date().getTime() - new Date(accountCreatedAt).getTime()) / (1000 * 60 * 60 * 24)
   ) + 1
 
-  const winningTrades = tradeHistory.filter(t => t.type === 'sell').length
   const avgTradeSize = tradeHistory.length > 0
     ? tradeHistory.reduce((sum, t) => sum + t.total, 0) / tradeHistory.length
     : 0
@@ -383,7 +374,7 @@ export default function ProfilePage() {
                     style={{
                       backgroundColor: isReached || isCurrent ? tierColor.primary : undefined,
                       color: isReached || isCurrent ? 'white' : undefined,
-                      ringColor: isCurrent ? tierColor.secondary : undefined,
+                      boxShadow: isCurrent ? `0 0 0 3px ${tierColor.secondary}` : undefined,
                     }}
                   >
                     {index + 1}

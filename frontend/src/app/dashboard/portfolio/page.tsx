@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useGameStore, BASE_STOCK_PRICES, usePortfolioStats, useLevelInfo, XP_REWARDS } from '@/lib/game.store'
+import { useGameStore, BASE_STOCK_PRICES, usePortfolioStats, useLevelInfo } from '@/lib/game.store'
 import {
   ArrowUpRight,
   ArrowDownRight,
@@ -297,7 +297,7 @@ export default function PortfolioPage() {
   } = useGameStore()
 
   const { portfolioValue, totalGainLoss, totalGainLossPercent } = usePortfolioStats()
-  const { level, progressPercent, title } = useLevelInfo()
+  const { level, title } = useLevelInfo()
 
   // Sell modal state
   const [sellModalPosition, setSellModalPosition] = useState<any>(null)

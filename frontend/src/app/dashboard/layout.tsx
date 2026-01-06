@@ -3,7 +3,7 @@
 import { useEffect, ReactNode, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/auth.store'
-import { useGameStore, useLevelInfo, LEVEL_TITLES } from '@/lib/game.store'
+import { useGameStore, useLevelInfo } from '@/lib/game.store'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -48,7 +48,7 @@ const LEVEL_COLORS = [
 ]
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const { isAuthenticated, user, checkAuth, logout } = useAuth()
+  const { isAuthenticated, checkAuth, logout } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)

@@ -20,10 +20,10 @@ interface AuthState {
 const DEMO_USER = {
   id: 'demo-user-123',
   username: 'DemoTrader',
-  ageBand: 'TEEN' as const,
+  ageBand: 'EARLY_TEEN' as const,
   createdAt: new Date().toISOString(),
   learningLevel: 1,
-  totalPoints: 0,
+  points: 0,
 };
 
 export const useAuth = create<AuthState>((set) => ({

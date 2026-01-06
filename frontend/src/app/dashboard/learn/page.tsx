@@ -19,7 +19,6 @@ import {
   ChevronRight,
   Award,
   Clock,
-  Users,
   ArrowRight,
   Sparkles
 } from 'lucide-react'
@@ -902,7 +901,7 @@ export default function LearnPage() {
   const [showQuiz, setShowQuiz] = useState(false)
   const [quizAnswer, setQuizAnswer] = useState<number | null>(null)
   const [quizSubmitted, setQuizSubmitted] = useState(false)
-  const [lessonCompleted, setLessonCompleted] = useState(false)
+  const [, setLessonCompleted] = useState(false)
   const [xpEarned, setXpEarned] = useState(0)
 
   // Game store

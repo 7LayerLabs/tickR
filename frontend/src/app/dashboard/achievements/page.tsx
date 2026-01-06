@@ -1,12 +1,11 @@
 'use client'
 
-import { useGameStore, ACHIEVEMENT_DEFINITIONS, useLevelInfo } from '@/lib/game.store'
+import { useGameStore, ACHIEVEMENT_DEFINITIONS } from '@/lib/game.store'
 import {
   Trophy,
   Lock,
   CheckCircle2,
   Sparkles,
-  Target,
   TrendingUp,
   BookOpen,
   Flame,
@@ -18,17 +17,12 @@ export default function AchievementsPage() {
   const {
     achievements,
     getUnlockedAchievements,
-    getLockedAchievements,
     totalTrades,
     totalLessonsCompleted,
     currentStreak,
-    xp,
   } = useGameStore()
 
-  const { level, title } = useLevelInfo()
-
   const unlockedAchievements = getUnlockedAchievements()
-  const lockedAchievements = getLockedAchievements()
 
   // Group achievements by category
   const tradingAchievements = achievements.filter(a =>

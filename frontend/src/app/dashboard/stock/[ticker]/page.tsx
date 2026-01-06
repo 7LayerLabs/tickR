@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { useGameStore, BASE_STOCK_PRICES } from '@/lib/game.store'
+import { useGameStore } from '@/lib/game.store'
 import Link from 'next/link'
 import {
   ArrowLeft,
   ArrowUpRight,
   ArrowDownRight,
   TrendingUp,
-  TrendingDown,
   DollarSign,
   X,
   Building2,
@@ -17,15 +16,10 @@ import {
   PieChart,
   BarChart3,
   Calendar,
-  Target,
-  Zap,
   Users,
-  Globe,
   ChevronRight,
   ChevronDown,
   Sparkles,
-  Info,
-  Lock,
   Loader2
 } from 'lucide-react'
 
@@ -496,7 +490,6 @@ export default function StockDetailPage() {
 
   // Use game store for real trading
   const {
-    positions,
     cashBalance,
     buyStock,
     sellStock,
@@ -522,7 +515,7 @@ export default function StockDetailPage() {
           }
           setIsLoading(false)
         })
-        .catch(err => {
+        .catch(() => {
           setFetchError('Failed to load stock data')
           setIsLoading(false)
         })

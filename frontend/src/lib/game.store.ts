@@ -579,7 +579,7 @@ export const useGameStore = create<GameState & GameActions>()(
 
       // ========== XP & LEVELING ==========
 
-      addXp: (amount, reason) => {
+      addXp: (amount, _reason) => {
         const state = get()
         const newXp = state.xp + amount
         const { level, xpToNext } = calculateLevel(newXp)

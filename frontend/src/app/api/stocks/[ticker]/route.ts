@@ -166,7 +166,7 @@ const SECTOR_COLORS: Record<string, string> = {
 }
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ ticker: string }> }
 ) {
   const { ticker } = await params
