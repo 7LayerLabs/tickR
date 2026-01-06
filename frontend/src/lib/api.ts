@@ -23,14 +23,15 @@ class APIClient {
     });
 
     // Add response interceptor for error handling
+    // DEMO MODE: 401 redirect disabled for testing
     this.client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
-        if (error.response?.status === 401) {
-          // Token expired or invalid
-          this.removeToken();
-          window.location.href = '/auth/login';
-        }
+        // DEMO MODE: Don't redirect on 401, just reject the promise
+        // if (error.response?.status === 401) {
+        //   this.removeToken();
+        //   window.location.href = '/auth/login';
+        // }
         return Promise.reject(error);
       }
     );

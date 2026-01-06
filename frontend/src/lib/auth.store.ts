@@ -16,9 +16,20 @@ interface AuthState {
   clearError: () => void;
 }
 
+// DEMO MODE: Authentication bypassed for testing
+const DEMO_USER = {
+  id: 'demo-user-123',
+  username: 'DemoTrader',
+  ageBand: 'TEEN' as const,
+  createdAt: new Date().toISOString(),
+  learningLevel: 1,
+  totalPoints: 0,
+};
+
 export const useAuth = create<AuthState>((set) => ({
-  user: null,
-  isAuthenticated: false,
+  // DEMO MODE: Pre-authenticated for testing
+  user: DEMO_USER,
+  isAuthenticated: true,
   isLoading: false,
   error: null,
 
@@ -56,14 +67,8 @@ export const useAuth = create<AuthState>((set) => ({
   },
 
   checkAuth: async () => {
-    set({ isLoading: true });
-    try {
-      const user = await apiClient.getMe();
-      set({ user, isAuthenticated: true, isLoading: false });
-    } catch (error) {
-      set({ user: null, isAuthenticated: false, isLoading: false });
-      apiClient.logout();
-    }
+    // DEMO MODE: Skip API check, always authenticated
+    set({ user: DEMO_USER, isAuthenticated: true, isLoading: false });
   },
 
   clearError: () => set({ error: null }),

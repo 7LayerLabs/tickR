@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import '@/styles/globals.css'
+import Providers from '@/components/Providers'
 
 export const metadata: Metadata = {
   title: 'TickR - Learn to Invest',
@@ -15,9 +16,11 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body>
-        {children}
+    <html lang="en" className="h-full">
+      <body className="h-full">
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   )

@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import fs from 'fs';
 import path from 'path';
 
@@ -422,7 +422,7 @@ async function seedLessons() {
           points_for_correct: 10
         }
       ],
-      realWorldExample: null,
+      realWorldExample: Prisma.JsonNull,
       metricsUnlocked: ['transaction_history', 'position_values'],
       pointsOnCompletion: 75
     },
@@ -470,7 +470,7 @@ async function seedLessons() {
           points_for_correct: 10
         }
       ],
-      realWorldExample: null,
+      realWorldExample: Prisma.JsonNull,
       metricsUnlocked: ['all_sectors', 'sector_filtering'],
       pointsOnCompletion: 100
     }
