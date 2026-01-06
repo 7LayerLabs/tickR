@@ -14,13 +14,18 @@ import {
   ChevronRight,
   Clock,
   ArrowRight,
-  Sparkles
+  Sparkles,
+  BarChart3,
+  Target,
+  Shield,
+  PiggyBank,
+  DollarSign,
+  Award,
 } from 'lucide-react'
 import {
   LearnIcon,
   TrophyIcon,
   GoalIcon,
-  SafetyIcon,
   StrategyIcon,
   RocketIcon,
 } from '@/components/icons/TickRIcons'
@@ -693,7 +698,7 @@ const LEARNING_PATHS = [
             company: 'Berkshire Hathaway (BRK.A)',
             explanation: 'If you invested $10,000 in Berkshire in 1965, itd be worth over $300 million today. Buffett buys companies he understands, holds forever, and ignores short-term market noise. He still lives in the same house he bought in 1958 for $31,500.',
           },
-          kidBreakdown: 'Buffett is 93 years old and has been investing since he was YOUR age. He didnt get rich quick - he got rich SLOW, letting compound growth work for 80+ years. He says "the stock market transfers money from the impatient to the patient."',
+          kidBreakdown: 'Buffett is 94 years old and has been investing since he was YOUR age. He didnt get rich quick - he got rich SLOW, letting compound growth work for 80+ years. He says "the stock market transfers money from the impatient to the patient."',
           keyTakeaway: 'Buffetts secret: Buy great companies, hold forever, stay patient, ignore the noise.',
         }
       },
@@ -749,162 +754,315 @@ const LEARNING_PATHS = [
   },
 ]
 
-// Quiz questions for testing knowledge
-const QUIZZES: { [key: string]: { question: string; options: string[]; correct: number; explanation: string }[] } = {
-  'what-is-stock': [
+// Path-level quizzes - comprehensive quiz at end of each learning path
+const PATH_QUIZZES: { [pathId: string]: { question: string; options: string[]; correct: number; explanation: string }[] } = {
+  'basics': [
     {
-      question: 'What do you own when you buy a stock?',
-      options: ['A loan to the company', 'A small piece of the company', 'A product from the company', 'A job at the company'],
+      question: 'What do you actually own when you buy a stock?',
+      options: ['A loan to the company', 'A small piece of ownership in the company', 'A product the company makes', 'A guaranteed profit'],
       correct: 1,
-      explanation: 'When you buy stock, you become a partial owner (shareholder) of that company!'
-    }
-  ],
-  'how-prices-move': [
+      explanation: 'When you buy stock, you become a partial owner (shareholder) of that company. You own a tiny piece of the business!'
+    },
     {
-      question: 'What makes a stock price go UP?',
-      options: ['More sellers than buyers', 'More buyers than sellers', 'The company releases a new product', 'The CEO tweets'],
-      correct: 1,
-      explanation: 'When more people want to buy (demand) than sell (supply), the price increases.'
-    }
-  ],
-  'bull-bear-markets': [
+      question: 'What causes a stock price to go UP?',
+      options: ['The CEO makes a speech', 'More people want to sell than buy', 'More people want to buy than sell', 'The company changes its logo'],
+      correct: 2,
+      explanation: 'Supply and demand! When more people want to buy (demand) than sell (supply), the price increases.'
+    },
     {
-      question: 'A bear market means stock prices are...',
-      options: ['Rising quickly', 'Falling 20% or more', 'Staying flat', 'At all-time highs'],
-      correct: 1,
-      explanation: 'A bear market is defined as a decline of 20% or more from recent highs. Bears swipe DOWN!'
-    }
-  ],
-  'sp500-explained': [
+      question: 'A "bear market" means stock prices have fallen by at least...',
+      options: ['5%', '10%', '20%', '50%'],
+      correct: 2,
+      explanation: 'A bear market is officially defined as a 20% or more decline from recent highs. Bears swipe DOWN!'
+    },
     {
       question: 'The S&P 500 tracks how many of the largest US companies?',
-      options: ['50', '100', '500', '5000'],
+      options: ['50 companies', '100 companies', '500 companies', '5,000 companies'],
       correct: 2,
-      explanation: 'The S&P 500 tracks the 500 largest US companies. The number is right in the name!'
+      explanation: 'The S&P 500 tracks the 500 largest US companies. The number is right in the name! Its the most-watched market index.'
+    },
+    {
+      question: 'US stock markets are open from...',
+      options: ['24 hours a day', '9:30 AM - 4:00 PM Eastern, Monday-Friday', '8:00 AM - 6:00 PM, every day', 'Only on weekends'],
+      correct: 1,
+      explanation: 'Regular market hours are 9:30 AM to 4:00 PM Eastern Time, Monday through Friday (excluding holidays).'
+    },
+    {
+      question: 'Which statement about bull and bear markets is TRUE?',
+      options: ['Bear markets last forever', 'Bull markets mean prices are falling', 'Both bull and bear markets are normal cycles', 'You should only invest during bull markets'],
+      correct: 2,
+      explanation: 'Bull (rising) and bear (falling) markets are both normal parts of the market cycle. Historically, markets always recover from bear markets.'
     }
   ],
-  'dividends': [
+  'reading-stocks': [
+    {
+      question: 'What is a ticker symbol?',
+      options: ['The companys phone number', 'A unique abbreviation identifying a stock', 'The stock price', 'The CEOs name'],
+      correct: 1,
+      explanation: 'Ticker symbols are short codes that identify stocks - like AAPL for Apple, GOOGL for Google, DIS for Disney.'
+    },
+    {
+      question: 'Market capitalization (market cap) equals...',
+      options: ['Stock price × number of shares', 'Total company revenue', 'Profit divided by shares', 'The CEOs salary'],
+      correct: 0,
+      explanation: 'Market cap = stock price × total shares outstanding. It represents the total market value of a company.'
+    },
+    {
+      question: 'A company with a P/E ratio of 50 vs one with P/E of 15 means...',
+      options: ['The first company is definitely better', 'Investors expect more growth from the first company', 'The second company will go bankrupt', 'P/E doesnt matter at all'],
+      correct: 1,
+      explanation: 'Higher P/E means investors pay more per dollar of profit, betting the company will grow faster. Its not always "better" - just different expectations.'
+    },
     {
       question: 'What are dividends?',
-      options: ['Fees you pay to own stocks', 'Cash payments from companies to shareholders', 'Taxes on stock profits', 'Stock splits'],
+      options: ['Fees you pay to own stocks', 'Cash payments companies make to shareholders', 'Taxes on your profits', 'The price of one share'],
       correct: 1,
-      explanation: 'Dividends are cash payments companies make to shareholders - you get paid just for owning the stock!'
+      explanation: 'Dividends are cash payments (usually quarterly) that some companies pay to shareholders. You get paid just for owning the stock!'
+    },
+    {
+      question: 'When a company does a 4-for-1 stock split, what happens to your shares?',
+      options: ['You lose 75% of your shares', 'You get 4x the shares at 1/4 the price each', 'Nothing changes', 'You must sell immediately'],
+      correct: 1,
+      explanation: 'In a 4-for-1 split, each share becomes 4 shares at 1/4 the price. Your total value stays the same - just more pieces!'
+    },
+    {
+      question: 'Earnings reports come out...',
+      options: ['Every day', 'Every week', 'Every 3 months (quarterly)', 'Once per year'],
+      correct: 2,
+      explanation: 'Public companies report earnings quarterly (every 3 months). These reports often cause big stock price moves based on whether results beat or miss expectations.'
+    },
+    {
+      question: 'A "limit order" lets you...',
+      options: ['Buy unlimited shares', 'Set the exact maximum price youll pay', 'Skip all trading fees', 'Trade after hours only'],
+      correct: 1,
+      explanation: 'Limit orders only execute at your specified price or better. You control exactly what you pay instead of accepting whatever the current price is.'
+    },
+    {
+      question: 'If a stocks chart shows mostly green over the past year, it means...',
+      options: ['The company is environmentally friendly', 'The stock price has generally gone up', 'The company is new', 'You should definitely buy it'],
+      correct: 1,
+      explanation: 'Green typically indicates price increases on stock charts (red = decreases). A year of green suggests an upward trend, but past performance doesnt guarantee future results!'
     }
   ],
-  'pe-ratio': [
+  'investing-strategies': [
     {
-      question: 'A higher P/E ratio usually means investors expect...',
-      options: ['The company will go bankrupt', 'Big future growth', 'Lower stock prices', 'No dividends'],
+      question: 'Diversification means...',
+      options: ['Buying only one stock you really believe in', 'Spreading money across different investments', 'Changing your strategy every day', 'Only buying tech stocks'],
       correct: 1,
-      explanation: 'A high P/E means investors are paying more per dollar of profit, betting on future growth.'
+      explanation: 'Diversification spreads your money across different stocks, sectors, and asset types so one bad investment doesnt ruin everything.'
+    },
+    {
+      question: 'The "buy and hold" strategy means...',
+      options: ['Buy stocks and sell them the next day', 'Hold onto cash and never invest', 'Buy quality stocks and keep them for years', 'Only hold stocks during bull markets'],
+      correct: 2,
+      explanation: 'Buy and hold means purchasing stocks and keeping them for years, ignoring short-term ups and downs. Time in the market beats timing the market!'
+    },
+    {
+      question: 'Dollar-cost averaging (DCA) involves...',
+      options: ['Investing all your money at once', 'Investing the same amount at regular intervals', 'Only buying when prices are low', 'Converting dollars to other currencies'],
+      correct: 1,
+      explanation: 'DCA means investing a fixed amount regularly (like $100/month) regardless of price. You automatically buy more shares when cheap, fewer when expensive.'
+    },
+    {
+      question: 'Compound growth is powerful because...',
+      options: ['You pay less taxes', 'Your earnings earn their own earnings over time', 'Stocks always go up', 'Brokers give you bonuses'],
+      correct: 1,
+      explanation: 'Compound growth means your gains generate their own gains. $1,000 at 10% becomes $1,100, then that earns 10% ($110), and it snowballs over time!'
+    },
+    {
+      question: 'If you invest $1,000 at age 15 vs age 35 (both earning 10% annually until 65)...',
+      options: ['Theyd be worth the same', 'Starting at 15 would be worth about 5-6x more', 'Starting at 35 would be worth more', 'Neither would grow much'],
+      correct: 1,
+      explanation: 'Starting at 15 gives you 50 years of compounding vs 30 years. That extra 20 years makes a MASSIVE difference - potentially 5-6x more money!'
     }
   ],
-  'market-cap': [
+  'risk-management': [
     {
-      question: 'Market cap equals...',
-      options: ['Stock price times shares outstanding', 'Total revenue', 'CEO salary', 'Building value'],
+      question: 'Which investment typically has the HIGHEST risk AND highest potential return?',
+      options: ['US Government Bonds', 'Savings account', 'Individual stocks or crypto', 'CDs (Certificates of Deposit)'],
+      correct: 2,
+      explanation: 'Individual stocks and crypto can have huge gains but also huge losses. Bonds and savings accounts are safer but return less. Higher potential reward = higher risk.'
+    },
+    {
+      question: 'Volatility in stocks refers to...',
+      options: ['How much a stocks price swings up and down', 'The companys electricity usage', 'How loud the trading floor is', 'The number of shares available'],
       correct: 0,
-      explanation: 'Market cap = stock price × total shares. Its the total value of all shares combined.'
-    }
-  ],
-  'diversification': [
+      explanation: 'Volatility measures price swings. High volatility = big moves (exciting but stressful). Low volatility = steadier prices (calmer but less dramatic gains).'
+    },
     {
-      question: 'Why should you diversify your investments?',
-      options: ['To show off how many stocks you own', 'So one bad stock doesnt ruin everything', 'Because its required by law', 'To confuse your friends'],
+      question: 'A stop-loss order is designed to...',
+      options: ['Guarantee you never lose money', 'Automatically sell if a stock drops to a certain price', 'Stop you from buying more', 'Eliminate all risk'],
       correct: 1,
-      explanation: 'Diversification protects you - if one investment fails, others can balance it out.'
-    }
-  ],
-  'compound-growth': [
+      explanation: 'Stop-losses automatically sell your shares if they drop to your specified price, limiting potential losses. They dont guarantee anything but help manage risk.'
+    },
     {
-      question: 'Why does Warren Buffett say starting young is so powerful?',
-      options: ['Young people are smarter', 'More time for compound growth', 'Stocks are cheaper for kids', 'No taxes for teens'],
-      correct: 1,
-      explanation: 'Time is the biggest factor in compound growth. Starting at 15 vs 35 can mean 5-10x more money!'
-    }
-  ],
-  'etfs-explained': [
-    {
-      question: 'An ETF is best described as...',
-      options: ['A single stock', 'A bundle of many stocks in one', 'A type of bond', 'A savings account'],
-      correct: 1,
-      explanation: 'ETFs bundle many stocks together so you can buy diversification in one purchase.'
-    }
-  ],
-  'index-funds': [
-    {
-      question: 'What percentage of professional stock pickers LOSE to simple index funds over 15 years?',
-      options: ['About 10%', 'About 50%', 'About 90%', 'About 100%'],
+      question: 'The "golden rule" of investing is...',
+      options: ['Buy low, sell high every time', 'Never invest in anything', 'Only invest money you can afford to lose', 'Always follow social media tips'],
       correct: 2,
-      explanation: 'Studies show about 90% of professionals fail to beat index funds over 15 years. Keeping it simple wins!'
+      explanation: 'Never invest money you need soon (rent, tuition, emergencies). Only invest money you wont need for 5+ years and could lose without ruining your life.'
+    },
+    {
+      question: 'If you need money for college in 2 years, you should probably...',
+      options: ['Put it all in high-risk stocks for maximum growth', 'Keep it in a safe savings account or short-term bonds', 'Invest in crypto for quick gains', 'Give it to a friend to invest'],
+      correct: 1,
+      explanation: 'Money needed soon should be kept safe. Stocks can drop 30%+ in a year - you cant risk having less than you need when college bills are due!'
     }
   ],
-  'inflation-enemy': [
+  'investment-types': [
     {
-      question: 'If inflation is 3% and your savings account pays 1%, youre actually...',
-      options: ['Gaining 4%', 'Gaining 2%', 'Losing 2% buying power', 'Breaking even'],
+      question: 'An ETF (Exchange-Traded Fund) is best described as...',
+      options: ['A single companys stock', 'A bundle of many stocks that trades like one stock', 'A government bond', 'A type of savings account'],
+      correct: 1,
+      explanation: 'ETFs bundle many stocks together. Buy one share of SPY and you own tiny pieces of 500 companies! Instant diversification.'
+    },
+    {
+      question: 'Index funds are popular because...',
+      options: ['They guarantee profits', 'They beat 90% of professional stock pickers over 15+ years', 'They have the highest fees', 'Warren Buffett invented them'],
+      correct: 1,
+      explanation: 'Studies show about 90% of professional fund managers fail to beat simple index funds over 15 years. Low fees + market returns = winning formula!'
+    },
+    {
+      question: 'When you buy a bond, you are essentially...',
+      options: ['Buying ownership in a company', 'Lending money in exchange for interest payments', 'Gambling on price movements', 'Buying real estate'],
+      correct: 1,
+      explanation: 'Bonds are loans you make to companies or governments. They promise to pay you back with interest. Safer than stocks but lower returns.'
+    },
+    {
+      question: 'Inflation is a problem for savers because...',
+      options: ['It makes money grow faster', 'Each dollar buys less over time', 'Banks charge more fees', 'It only affects rich people'],
+      correct: 1,
+      explanation: 'Inflation means prices rise over time. If your savings earn 1% but inflation is 3%, youre actually losing 2% buying power each year!'
+    },
+    {
+      question: 'Mutual funds differ from ETFs mainly because...',
+      options: ['Mutual funds have professional managers and usually higher fees', 'ETFs never hold stocks', 'Mutual funds are always better', 'Theres no difference'],
+      correct: 0,
+      explanation: 'Mutual funds hire managers to pick stocks (active management) with higher fees. Most still lose to simple index ETFs that just track the market passively.'
+    },
+    {
+      question: 'To beat inflation over time, you generally need investments that return more than...',
+      options: ['0% per year', 'The inflation rate (historically ~2-3%)', '50% per year', 'Whatever your friend earns'],
+      correct: 1,
+      explanation: 'Your investments need to outpace inflation (~2-3% historically) just to maintain buying power. Stocks (~10% average) beat inflation; savings accounts often dont.'
+    }
+  ],
+  'common-mistakes': [
+    {
+      question: 'FOMO (Fear Of Missing Out) in investing typically leads to...',
+      options: ['Buying low and selling high', 'Making patient, well-researched decisions', 'Buying at the top after a stock has already surged', 'Guaranteed profits'],
       correct: 2,
-      explanation: 'If prices rise 3% but your money grows only 1%, you can buy 2% less stuff each year.'
-    }
-  ],
-  'fomo-investing': [
+      explanation: 'FOMO makes people chase stocks that already went up. By the time everyone is talking about it, the best gains are usually over. Youre often buying the top.'
+    },
     {
-      question: 'If you only want to buy a stock because everyone on social media is buying it, you should probably...',
-      options: ['Buy immediately before you miss out', 'Be cautious - youre probably late', 'Buy twice as much', 'Tell all your friends to buy too'],
+      question: 'Panic selling during a market crash is bad because...',
+      options: ['It locks in your losses right before a potential recovery', 'You have to pay a penalty fee', 'Its illegal', 'Panic selling is actually smart'],
+      correct: 0,
+      explanation: 'Every market crash in history has been followed by a recovery. Panic selling locks in losses and means you miss the rebound. Patience beats panic.'
+    },
+    {
+      question: 'When influencers on social media hype a stock, you should...',
+      options: ['Buy immediately before you miss out', 'Remember they often sell while telling others to buy', 'Invest your entire savings', 'Trust them completely'],
       correct: 1,
-      explanation: 'FOMO usually means youre late to the party. The best gains already happened.'
-    }
-  ],
-  'panic-selling': [
+      explanation: 'Many influencers profit by hyping stocks they already own, then selling to their followers at higher prices. Always do your own research!'
+    },
     {
-      question: 'Historically, after major market crashes, what has ALWAYS happened?',
-      options: ['Markets stayed down forever', 'Markets eventually recovered', 'All companies went bankrupt', 'Trading was banned'],
+      question: 'Checking your portfolio multiple times per day is...',
+      options: ['Necessary for success', 'Likely to cause anxiety and bad decisions', 'Required by law', 'The only way to make money'],
       correct: 1,
-      explanation: 'Every single market crash in history has been followed by a recovery. Patience wins.'
-    }
-  ],
-  'timing-the-market': [
+      explanation: 'The market is up only 53% of DAYS but 95% of 20-YEAR periods. Checking constantly creates stress and tempts you to make emotional trades. Check monthly, not hourly.'
+    },
     {
-      question: 'Missing just the 10 best days in the market over 20 years could cut your returns by...',
-      options: ['About 5%', 'About 20%', 'About 40%', 'About 70%'],
-      correct: 2,
-      explanation: 'Missing the 10 best days dropped returns from 9.8% to 5.6% annually - about 40% less wealth over time!'
-    }
-  ],
-  'warren-buffett': [
-    {
-      question: 'At what age did Warren Buffett start investing?',
-      options: ['5 years old', '11 years old', '18 years old', '30 years old'],
+      question: '"Time in the market" beats "timing the market" because...',
+      options: ['You can perfectly predict market movements', 'Missing just the 10 best days can cut returns nearly in half', 'Day trading always works', 'The market never goes up'],
       correct: 1,
-      explanation: 'Buffett bought his first stock at 11. He says starting young was key to his success!'
-    }
-  ],
-  'taxes-basics': [
+      explanation: 'The biggest gains happen suddenly and unexpectedly. Missing just the 10 best days over 20 years can cut your returns from 9.8% to 5.6% annually!'
+    },
     {
-      question: 'To get the lower long-term capital gains tax rate, you must hold a stock for...',
-      options: ['At least 1 day', 'At least 1 month', 'At least 1 year', 'At least 5 years'],
-      correct: 2,
-      explanation: 'Hold over 1 year = long-term rate (15% for most people) vs higher short-term rate.'
-    }
-  ],
-  'order-types': [
-    {
-      question: 'A limit order lets you...',
-      options: ['Buy at any price immediately', 'Set the exact price you want to pay', 'Buy unlimited shares', 'Skip paying fees'],
+      question: 'Following a "hot tip" from someone who "guarantees" profits is...',
+      options: ['A great strategy', 'Usually a scam or very risky', 'How Warren Buffett got rich', 'Required for new investors'],
       correct: 1,
-      explanation: 'Limit orders only execute at YOUR price or better. You control what you pay.'
+      explanation: 'No one can guarantee profits in the stock market. If someone claims to, theyre either lying or dont understand investing. Do your own research always!'
     }
   ],
+  'real-world': [
+    {
+      question: 'A brokerage account is...',
+      options: ['A type of loan', 'Where you hold and trade stocks', 'Only for professional traders', 'Illegal for beginners'],
+      correct: 1,
+      explanation: 'A brokerage account is like a bank account but for investments. You deposit money, then use it to buy stocks, ETFs, bonds, etc.'
+    },
+    {
+      question: 'Before age 18, you can invest through...',
+      options: ['Your own regular brokerage account', 'A custodial account with a parent/guardian', 'You cannot invest at all until 18', 'Only cryptocurrency apps'],
+      correct: 1,
+      explanation: 'Custodial accounts (UGMA/UTMA) or teen accounts like Fidelity Youth let minors invest with parent oversight. The money is yours, but parents manage it until you turn 18-21.'
+    },
+    {
+      question: 'Holding a stock for MORE than 1 year before selling means you pay...',
+      options: ['Higher taxes (short-term rate)', 'Lower taxes (long-term rate)', 'No taxes at all', 'A penalty fee'],
+      correct: 1,
+      explanation: 'Long-term capital gains (held >1 year) are taxed at a lower rate than short-term gains. Another reason patience pays in investing!'
+    },
+    {
+      question: 'Paper trading (like TickR) is valuable because...',
+      options: ['You make real money without risk', 'It builds skills before real money is on the line', 'Its more exciting than real trading', 'Professionals dont use it'],
+      correct: 1,
+      explanation: 'Paper trading lets you practice with fake money, learn from mistakes safely, and build good habits before real money adds emotional pressure.'
+    },
+    {
+      question: 'When youre ready to invest real money, the FIRST thing you should have is...',
+      options: ['A hot stock tip', 'An emergency fund and money you wont need for years', 'At least $10,000', 'A guarantee from your broker'],
+      correct: 1,
+      explanation: 'Before investing, make sure you have an emergency fund and only invest money you truly wont need for 5+ years. Never invest rent or tuition money!'
+    }
+  ],
+  'famous-investors': [
+    {
+      question: 'Warren Buffetts famous investing approach is called...',
+      options: ['Day trading', 'Value investing - buying great companies and holding forever', 'Crypto speculation', 'Timing the market perfectly'],
+      correct: 1,
+      explanation: 'Buffett is known for value investing: buying wonderful companies at fair prices and holding them forever. His favorite holding period is "forever."'
+    },
+    {
+      question: 'Warren Buffett started investing at age...',
+      options: ['5', '11', '21', '35'],
+      correct: 1,
+      explanation: 'Buffett bought his first stock at 11 years old. He says starting young and letting compound growth work for decades was key to his success.'
+    },
+    {
+      question: 'Peter Lynchs famous advice is to "invest in what you..."',
+      options: ['Hear about on TV', 'Know and understand from daily life', 'Can trade the fastest', 'Your friends recommend'],
+      correct: 1,
+      explanation: 'Lynch found winners like Dunkin Donuts by noticing long lines. He says regular people can spot trends in products they use before Wall Street does.'
+    },
+    {
+      question: 'Jack Bogles biggest contribution to investing was...',
+      options: ['Inventing day trading', 'Creating the first index fund', 'Starting a hedge fund', 'Discovering Bitcoin'],
+      correct: 1,
+      explanation: 'Bogle founded Vanguard and created the first index fund in 1976. Wall Street mocked him, but his simple, low-cost approach now beats 90% of professionals.'
+    },
+    {
+      question: 'The common lesson from ALL legendary investors is...',
+      options: ['Get rich quick with hot tips', 'Be patient, think long-term, and dont let emotions drive decisions', 'Check prices every minute', 'Follow the crowd'],
+      correct: 1,
+      explanation: 'Buffett, Lynch, and Bogle all emphasize patience, long-term thinking, and keeping emotions in check. Success comes from discipline, not excitement.'
+    }
+  ]
 }
 
 export default function LearnPage() {
   const [selectedPath, setSelectedPath] = useState<string | null>(null)
   const [selectedLesson, setSelectedLesson] = useState<any | null>(null)
-  const [showQuiz, setShowQuiz] = useState(false)
-  const [quizAnswer, setQuizAnswer] = useState<number | null>(null)
-  const [quizSubmitted, setQuizSubmitted] = useState(false)
   const [, setLessonCompleted] = useState(false)
   const [xpEarned, setXpEarned] = useState(0)
+
+  // Path quiz state
+  const [showPathQuiz, setShowPathQuiz] = useState(false)
+  const [currentQuizQuestion, setCurrentQuizQuestion] = useState(0)
+  const [quizAnswers, setQuizAnswers] = useState<(number | null)[]>([])
+  const [quizSubmitted, setQuizSubmitted] = useState(false)
+  const [quizResults, setQuizResults] = useState<boolean[]>([])
+  const [pathQuizScores, setPathQuizScores] = useState<{ [pathId: string]: { score: number; total: number; passed: boolean } }>({})
 
   // Game store
   const {
@@ -930,20 +1088,6 @@ export default function LearnPage() {
 
   const selectedPathData = LEARNING_PATHS.find(p => p.id === selectedPath)
 
-  const handleQuizSubmit = () => {
-    setQuizSubmitted(true)
-
-    // Check if answer is correct and award XP
-    if (selectedLesson && selectedPath) {
-      const quiz = QUIZZES[selectedLesson.id]
-      const isCorrect = quiz && quizAnswer === quiz[0].correct
-      if (isCorrect) {
-        submitQuiz(selectedLesson.id, selectedPath, 1, 1)
-        setXpEarned(prev => prev + 75) // Quiz XP bonus
-      }
-    }
-  }
-
   const handleLessonComplete = () => {
     if (selectedLesson && selectedPath && !isLessonCompleted(selectedLesson.id, selectedPath)) {
       completeLesson(selectedLesson.id, selectedPath)
@@ -952,16 +1096,74 @@ export default function LearnPage() {
     }
   }
 
-  const resetQuiz = () => {
-    setQuizAnswer(null)
+  // Start path quiz
+  const startPathQuiz = (pathId: string) => {
+    const quiz = PATH_QUIZZES[pathId]
+    if (quiz) {
+      setQuizAnswers(new Array(quiz.length).fill(null))
+      setQuizResults([])
+      setCurrentQuizQuestion(0)
+      setQuizSubmitted(false)
+      setShowPathQuiz(true)
+    }
+  }
+
+  // Submit entire path quiz
+  const handlePathQuizSubmit = () => {
+    if (!selectedPath) return
+    const quiz = PATH_QUIZZES[selectedPath]
+    if (!quiz) return
+
+    // Calculate results
+    const results = quizAnswers.map((answer, index) => answer === quiz[index].correct)
+    setQuizResults(results)
+    setQuizSubmitted(true)
+
+    const score = results.filter(r => r).length
+    const total = quiz.length
+    const percentage = (score / total) * 100
+    const passed = percentage >= 70
+
+    // Save score
+    setPathQuizScores(prev => ({
+      ...prev,
+      [selectedPath]: { score, total, passed }
+    }))
+
+    // Award XP
+    if (passed) {
+      const baseXp = 200 // PATH_QUIZ_PASS
+      const perfectBonus = score === total ? 150 : 0 // QUIZ_PERFECT bonus
+      setXpEarned(baseXp + perfectBonus)
+      // Also submit to game store
+      submitQuiz(selectedPath, selectedPath, score, total)
+    }
+  }
+
+  // Reset path quiz
+  const resetPathQuiz = () => {
+    setShowPathQuiz(false)
+    setCurrentQuizQuestion(0)
+    setQuizAnswers([])
+    setQuizResults([])
     setQuizSubmitted(false)
-    setLessonCompleted(false)
     setXpEarned(0)
+  }
+
+  // Check if all lessons in a path are completed
+  const isPathComplete = (pathId: string) => {
+    const path = LEARNING_PATHS.find(p => p.id === pathId)
+    if (!path) return false
+    return path.lessons.every(lesson => isLessonCompleted(lesson.id, pathId))
+  }
+
+  // Check if path quiz is passed
+  const isPathQuizPassed = (pathId: string) => {
+    return pathQuizScores[pathId]?.passed || false
   }
 
   // Lesson Detail View
   if (selectedLesson) {
-    const quiz = QUIZZES[selectedLesson.id]
     const isCompleted = selectedPath ? isLessonCompleted(selectedLesson.id, selectedPath) : false
 
     return (
@@ -983,8 +1185,7 @@ export default function LearnPage() {
         <button
           onClick={() => {
             setSelectedLesson(null)
-            resetQuiz()
-            setShowQuiz(false)
+            setXpEarned(0)
           }}
           className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium transition-colors"
         >
@@ -1064,7 +1265,7 @@ export default function LearnPage() {
           </div>
 
           {/* Complete Lesson Button */}
-          {!isCompleted && !quiz && (
+          {!isCompleted && (
             <button
               onClick={handleLessonComplete}
               className="w-full mt-6 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold text-lg hover:shadow-lg hover:shadow-emerald-200 transition-all"
@@ -1073,101 +1274,6 @@ export default function LearnPage() {
             </button>
           )}
         </div>
-
-        {/* Quiz Section */}
-        {quiz && (
-          <div className="p-8 rounded-3xl bg-white border-2 border-slate-100 shadow-sm">
-            {!showQuiz ? (
-              <div className="text-center">
-                <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center mx-auto mb-4">
-                  <Zap className="w-10 h-10 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">Test Your Knowledge!</h2>
-                <p className="text-slate-500 mb-6">Take a quick quiz to lock in what you learned</p>
-                <button
-                  onClick={() => setShowQuiz(true)}
-                  className="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold text-lg hover:shadow-lg hover:shadow-cyan-200 transition-all"
-                >
-                  Start Quiz
-                </button>
-              </div>
-            ) : (
-              <div>
-                <h2 className="text-xl font-bold text-slate-800 mb-6">{quiz[0].question}</h2>
-                <div className="space-y-3 mb-6">
-                  {quiz[0].options.map((option, index) => {
-                    let buttonClass = "w-full p-4 rounded-xl border-2 text-left font-medium transition-all "
-                    if (quizSubmitted) {
-                      if (index === quiz[0].correct) {
-                        buttonClass += "border-emerald-500 bg-emerald-50 text-emerald-700"
-                      } else if (index === quizAnswer) {
-                        buttonClass += "border-red-500 bg-red-50 text-red-700"
-                      } else {
-                        buttonClass += "border-slate-200 text-slate-400"
-                      }
-                    } else {
-                      buttonClass += quizAnswer === index
-                        ? "border-blue-500 bg-blue-50 text-blue-700"
-                        : "border-slate-200 hover:border-blue-300 text-slate-700"
-                    }
-
-                    return (
-                      <button
-                        key={index}
-                        onClick={() => !quizSubmitted && setQuizAnswer(index)}
-                        className={buttonClass}
-                        disabled={quizSubmitted}
-                      >
-                        <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
-                        {option}
-                      </button>
-                    )
-                  })}
-                </div>
-
-                {quizSubmitted && (
-                  <div className={`p-4 rounded-xl mb-6 ${
-                    quizAnswer === quiz[0].correct
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-amber-100 text-amber-700'
-                  }`}>
-                    <p className="font-bold mb-1">
-                      {quizAnswer === quiz[0].correct ? 'Correct!' : 'Not quite!'}
-                    </p>
-                    <p>{quiz[0].explanation}</p>
-                  </div>
-                )}
-
-                {!quizSubmitted ? (
-                  <button
-                    onClick={() => {
-                      handleQuizSubmit()
-                      // Complete lesson when quiz is submitted
-                      if (!isCompleted) {
-                        handleLessonComplete()
-                      }
-                    }}
-                    disabled={quizAnswer === null}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-bold text-lg disabled:opacity-50 disabled:cursor-not-allowed hover:shadow-lg transition-all"
-                  >
-                    Check Answer
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setSelectedLesson(null)
-                      resetQuiz()
-                      setShowQuiz(false)
-                    }}
-                    className="w-full py-4 rounded-xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-bold text-lg hover:shadow-lg transition-all"
-                  >
-                    Continue Learning
-                  </button>
-                )}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     )
   }
@@ -1177,6 +1283,231 @@ export default function LearnPage() {
     const pathCompletedLessons = selectedPathData.lessons.filter(l => isLessonCompleted(l.id, selectedPathData.id)).length
     const pathTotalXp = selectedPathData.lessons.reduce((a, l) => a + l.xp, 0)
     const pathEarnedXp = selectedPathData.lessons.filter(l => isLessonCompleted(l.id, selectedPathData.id)).reduce((a, l) => a + l.xp, 0)
+    const allLessonsComplete = pathCompletedLessons === selectedPathData.lessons.length
+    const pathQuiz = PATH_QUIZZES[selectedPathData.id]
+    const pathQuizScore = pathQuizScores[selectedPathData.id]
+
+    // Show Path Quiz View
+    if (showPathQuiz && pathQuiz) {
+      const currentQ = pathQuiz[currentQuizQuestion]
+      const totalQuestions = pathQuiz.length
+      const answeredCount = quizAnswers.filter(a => a !== null).length
+
+      return (
+        <div className="space-y-6 max-w-4xl mx-auto">
+          {/* XP Earned Toast */}
+          {xpEarned > 0 && (
+            <div className="fixed top-4 right-4 z-50 animate-pulse">
+              <div className="flex items-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-xl">
+                <Zap className="w-6 h-6" />
+                <div>
+                  <div className="font-bold">XP Earned!</div>
+                  <div className="text-amber-100 font-bold">+{xpEarned} XP</div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Back Button */}
+          <button
+            onClick={resetPathQuiz}
+            className="flex items-center gap-2 text-slate-600 hover:text-slate-800 font-medium transition-colors"
+          >
+            <ChevronRight className="w-5 h-5 rotate-180" />
+            Back to {selectedPathData.title}
+          </button>
+
+          {/* Quiz Header */}
+          <div className={`relative overflow-hidden rounded-3xl bg-gradient-to-br ${selectedPathData.bgGradient} p-6 text-white`}>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <Target className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold">{selectedPathData.title} Quiz</h1>
+                  <p className="text-white/80">Test your knowledge - 70% to pass</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold">{currentQuizQuestion + 1}/{totalQuestions}</div>
+                <div className="text-white/80 text-sm">{answeredCount} answered</div>
+              </div>
+            </div>
+            {/* Progress bar */}
+            <div className="mt-4 h-2 rounded-full bg-white/20 overflow-hidden">
+              <div
+                className="h-full rounded-full bg-white transition-all duration-300"
+                style={{ width: `${((currentQuizQuestion + 1) / totalQuestions) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Quiz Results */}
+          {quizSubmitted ? (
+            <div className="p-8 rounded-3xl bg-white border-2 border-slate-100 shadow-sm">
+              {/* Score Display */}
+              <div className="text-center mb-8">
+                <div className={`w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-4 ${
+                  pathQuizScore?.passed ? 'bg-emerald-100' : 'bg-amber-100'
+                }`}>
+                  {pathQuizScore?.passed ? (
+                    <CheckCircle2 className="w-12 h-12 text-emerald-500" />
+                  ) : (
+                    <Target className="w-12 h-12 text-amber-500" />
+                  )}
+                </div>
+                <h2 className="text-3xl font-bold text-slate-800 mb-2">
+                  {pathQuizScore?.passed ? 'Congratulations!' : 'Almost There!'}
+                </h2>
+                <p className="text-xl text-slate-600 mb-4">
+                  You scored {pathQuizScore?.score}/{pathQuizScore?.total} ({Math.round((pathQuizScore?.score || 0) / (pathQuizScore?.total || 1) * 100)}%)
+                </p>
+                {pathQuizScore?.passed ? (
+                  <p className="text-emerald-600 font-semibold">You've mastered {selectedPathData.title}!</p>
+                ) : (
+                  <p className="text-amber-600 font-semibold">You need 70% to pass. Review the lessons and try again!</p>
+                )}
+              </div>
+
+              {/* Answer Review */}
+              <div className="space-y-4 mb-8">
+                <h3 className="font-bold text-slate-800 text-lg">Review Your Answers</h3>
+                {pathQuiz.map((q, index) => (
+                  <div key={index} className={`p-4 rounded-xl border-2 ${
+                    quizResults[index] ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50'
+                  }`}>
+                    <div className="flex items-start gap-3">
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
+                        quizResults[index] ? 'bg-emerald-500' : 'bg-red-500'
+                      }`}>
+                        {quizResults[index] ? (
+                          <CheckCircle2 className="w-4 h-4 text-white" />
+                        ) : (
+                          <span className="text-white text-xs font-bold">✕</span>
+                        )}
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-medium text-slate-800 mb-1">{q.question}</p>
+                        <p className="text-sm text-slate-600">
+                          <span className="font-semibold">Your answer:</span> {q.options[quizAnswers[index] ?? 0]}
+                        </p>
+                        {!quizResults[index] && (
+                          <p className="text-sm text-emerald-700 mt-1">
+                            <span className="font-semibold">Correct:</span> {q.options[q.correct]}
+                          </p>
+                        )}
+                        <p className="text-sm text-slate-500 mt-2 italic">{q.explanation}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4">
+                {!pathQuizScore?.passed && (
+                  <button
+                    onClick={() => startPathQuiz(selectedPathData.id)}
+                    className="flex-1 py-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-lg hover:shadow-lg transition-all"
+                  >
+                    Try Again
+                  </button>
+                )}
+                <button
+                  onClick={() => {
+                    resetPathQuiz()
+                    if (pathQuizScore?.passed) {
+                      setSelectedPath(null)
+                    }
+                  }}
+                  className={`${pathQuizScore?.passed ? 'flex-1' : ''} py-4 px-8 rounded-xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-bold text-lg hover:shadow-lg transition-all`}
+                >
+                  {pathQuizScore?.passed ? 'Continue to Next Path' : 'Back to Lessons'}
+                </button>
+              </div>
+            </div>
+          ) : (
+            /* Quiz Question */
+            <div className="p-8 rounded-3xl bg-white border-2 border-slate-100 shadow-sm">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">{currentQ.question}</h2>
+              <div className="space-y-3 mb-8">
+                {currentQ.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      const newAnswers = [...quizAnswers]
+                      newAnswers[currentQuizQuestion] = index
+                      setQuizAnswers(newAnswers)
+                    }}
+                    className={`w-full p-4 rounded-xl border-2 text-left font-medium transition-all ${
+                      quizAnswers[currentQuizQuestion] === index
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-slate-200 hover:border-blue-300 text-slate-700'
+                    }`}
+                  >
+                    <span className="mr-3 font-bold">{String.fromCharCode(65 + index)}.</span>
+                    {option}
+                  </button>
+                ))}
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex gap-4">
+                {currentQuizQuestion > 0 && (
+                  <button
+                    onClick={() => setCurrentQuizQuestion(prev => prev - 1)}
+                    className="px-6 py-3 rounded-xl border-2 border-slate-200 text-slate-600 font-semibold hover:border-slate-300 transition-all"
+                  >
+                    Previous
+                  </button>
+                )}
+                <div className="flex-1" />
+                {currentQuizQuestion < totalQuestions - 1 ? (
+                  <button
+                    onClick={() => setCurrentQuizQuestion(prev => prev + 1)}
+                    disabled={quizAnswers[currentQuizQuestion] === null}
+                    className="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    onClick={handlePathQuizSubmit}
+                    disabled={quizAnswers.some(a => a === null)}
+                    className="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    Submit Quiz
+                  </button>
+                )}
+              </div>
+
+              {/* Question Navigator */}
+              <div className="mt-6 pt-6 border-t border-slate-100">
+                <p className="text-sm text-slate-500 mb-3">Jump to question:</p>
+                <div className="flex flex-wrap gap-2">
+                  {pathQuiz.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentQuizQuestion(index)}
+                      className={`w-10 h-10 rounded-lg font-bold transition-all ${
+                        index === currentQuizQuestion
+                          ? 'bg-blue-500 text-white'
+                          : quizAnswers[index] !== null
+                          ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-300'
+                          : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      )
+    }
 
     return (
       <div className="space-y-6">
@@ -1306,6 +1637,49 @@ export default function LearnPage() {
             )
           })}
         </div>
+
+        {/* Path Quiz Section */}
+        {pathQuiz && (
+          <div className="p-6 rounded-2xl bg-white border-2 border-slate-100 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${selectedPathData.bgGradient} flex items-center justify-center`}>
+                  <Target className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg text-slate-800">Path Quiz</h3>
+                  <p className="text-slate-500 text-sm">
+                    {pathQuizScore?.passed
+                      ? `Passed with ${pathQuizScore.score}/${pathQuizScore.total} (${Math.round(pathQuizScore.score / pathQuizScore.total * 100)}%)`
+                      : `${pathQuiz.length} questions • 70% to pass • +200 XP`
+                    }
+                  </p>
+                </div>
+              </div>
+              <div>
+                {pathQuizScore?.passed ? (
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-100 text-emerald-600 font-semibold">
+                    <CheckCircle2 className="w-5 h-5" />
+                    Completed
+                  </span>
+                ) : allLessonsComplete ? (
+                  <button
+                    onClick={() => startPathQuiz(selectedPathData.id)}
+                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-bold hover:shadow-lg hover:shadow-violet-200 transition-all"
+                  >
+                    <Zap className="w-5 h-5" />
+                    Take Quiz
+                  </button>
+                ) : (
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-100 text-slate-400 font-semibold">
+                    <Lock className="w-4 h-4" />
+                    Complete all lessons first
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     )
   }

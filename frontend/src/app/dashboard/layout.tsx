@@ -4,6 +4,10 @@ import { useEffect, ReactNode, useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { useAuth } from '@/lib/auth.store'
 import { useGameStore, useLevelInfo } from '@/lib/game.store'
+import { CelebrationProvider } from '@/components/celebrations'
+import { OnboardingProvider } from '@/components/onboarding'
+import { QuestHub, QuestButton } from '@/components/quests'
+import { IdleHint } from '@/components/tooltips'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -55,6 +59,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const router = useRouter()
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [questHubOpen, setQuestHubOpen] = useState(false)
 
   // Game store state
   const {
@@ -83,6 +88,8 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const levelColor = LEVEL_COLORS[Math.min(level - 1, LEVEL_COLORS.length - 1)]
 
   return (
+    <OnboardingProvider>
+    <CelebrationProvider>
     <div className="min-h-screen flex bg-navy-900">
       {/* Mobile menu button */}
       <button
@@ -123,56 +130,56 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* User Card */}
         <div className="p-4">
           <Link href="/dashboard/profile" className="block p-4 rounded-2xl bg-navy-900/50 border border-white/10 hover:border-orange-500/30 hover:shadow-glow-orange transition-all group">
-            <div className="flex items-center gap-3 mb-4">
-              <div
+            <span className="flex items-center gap-3 mb-4">
+              <span
                 className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold text-white shadow-lg group-hover:scale-105 transition-transform"
                 style={{ background: `linear-gradient(135deg, ${levelColor}, ${levelColor}dd)` }}
               >
                 {username?.charAt(0).toUpperCase()}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="font-display font-bold text-cream-100 truncate text-lg group-hover:text-orange-400 transition-colors">{username}</div>
-                <div className="flex items-center gap-1 text-sm font-semibold" style={{ color: levelColor }}>
+              </span>
+              <span className="flex-1 min-w-0 block">
+                <span className="font-display font-bold text-cream-100 truncate text-lg group-hover:text-orange-400 transition-colors block">{username}</span>
+                <span className="flex items-center gap-1 text-sm font-semibold" style={{ color: levelColor }}>
                   <Zap className="w-4 h-4" />
                   Level {level} · {title}
-                </div>
-              </div>
-            </div>
+                </span>
+              </span>
+            </span>
 
             {/* XP Progress Bar */}
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
+            <span className="space-y-2 block">
+              <span className="flex justify-between text-sm">
                 <span className="text-slate-400 font-medium">XP Progress</span>
                 <span className="font-bold text-orange-400">{xp.toLocaleString()} XP</span>
-              </div>
-              <div className="h-3 rounded-full overflow-hidden bg-navy-900">
-                <div
-                  className="h-full rounded-full transition-all duration-500 relative overflow-hidden"
+              </span>
+              <span className="h-3 rounded-full overflow-hidden bg-navy-900 block">
+                <span
+                  className="h-full rounded-full transition-all duration-500 relative overflow-hidden block"
                   style={{
                     width: `${progressPercent}%`,
                     background: `linear-gradient(90deg, #fb923c, #f97316, #ea580c)`
                   }}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
-                </div>
-              </div>
-              <div className="text-xs text-slate-500 text-right">
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse" />
+                </span>
+              </span>
+              <span className="text-xs text-slate-500 text-right block">
                 {(100 - progressPercent).toFixed(0)}% to Level {level + 1}
-              </div>
-            </div>
+              </span>
+            </span>
 
             {/* Badges preview */}
             {unlockedAchievements.length > 0 && (
-              <div className="mt-3 pt-3 border-t border-white/10">
-                <div className="flex items-center gap-1 flex-wrap">
+              <span className="mt-3 pt-3 border-t border-white/10 block">
+                <span className="flex items-center gap-1 flex-wrap">
                   {unlockedAchievements.slice(0, 4).map(a => (
                     <span key={a.id} className="text-lg" title={a.name}>{a.icon}</span>
                   ))}
                   {unlockedAchievements.length > 4 && (
                     <span className="text-xs text-slate-500 font-medium">+{unlockedAchievements.length - 4} more</span>
                   )}
-                </div>
-              </div>
+                </span>
+              </span>
             )}
           </Link>
         </div>
@@ -198,9 +205,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                     }
                   `}
                 >
-                  <div className={`transition-transform ${isActive ? 'scale-100' : 'group-hover:scale-110'}`}>
+                  <span className={`transition-transform ${isActive ? 'scale-100' : 'group-hover:scale-110'}`}>
                     <IconComponent size={40} />
-                  </div>
+                  </span>
                   <span className={`font-display font-semibold ${isActive ? 'text-orange-400' : 'text-slate-300 group-hover:text-cream-100'}`}>
                     {item.label}
                   </span>
@@ -292,6 +299,17 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           {children}
         </div>
       </main>
+
+      {/* Quest Hub Modal */}
+      <QuestHub isOpen={questHubOpen} onClose={() => setQuestHubOpen(false)} />
+
+      {/* Floating Quest Button */}
+      <QuestButton onClick={() => setQuestHubOpen(true)} />
+
+      {/* Idle Hint */}
+      <IdleHint />
     </div>
+    </CelebrationProvider>
+    </OnboardingProvider>
   )
 }

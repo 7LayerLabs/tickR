@@ -2,6 +2,8 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useCelebrationStore } from './celebration.store'
+import { useQuestStore } from './quest.store'
 
 // ============================================
 // TYPES
@@ -409,6 +411,8 @@ export const useGameStore = create<GameState & GameActions>()(
           timestamp: new Date().toISOString(),
         }
 
+        const isFirstTrade = state.totalTrades === 0
+
         set({
           positions: newPositions,
           cashBalance: state.cashBalance - total,
@@ -417,10 +421,21 @@ export const useGameStore = create<GameState & GameActions>()(
           lastUpdated: new Date().toISOString(),
         })
 
+        // Celebrate first trade!
+        if (isFirstTrade) {
+          const celebrationStore = useCelebrationStore.getState()
+          celebrationStore.celebrateFirstTrade(ticker, shares)
+        }
+
         // Add XP and check achievements
         get().addXp(XP_REWARDS.TRADE_BUY, 'Stock purchase')
         get().updateChallengeProgress('trade')
         get().checkAndUnlockAchievements()
+
+        // Track quest progress
+        const questStore = useQuestStore.getState()
+        questStore.trackTrade()
+        questStore.trackStockDiversity(get().positions.length)
 
         return { success: true, message: `Bought ${shares} shares of ${ticker}!` }
       },
@@ -468,6 +483,14 @@ export const useGameStore = create<GameState & GameActions>()(
         get().addXp(XP_REWARDS.TRADE_SELL, 'Stock sale')
         get().updateChallengeProgress('trade')
         get().checkAndUnlockAchievements()
+
+        // Track quest progress
+        const questStore = useQuestStore.getState()
+        questStore.trackTrade()
+        // Check if sold for profit
+        if (price > position.avgCost) {
+          questStore.trackProfitableSell()
+        }
 
         return { success: true, message: `Sold ${shares} shares of ${ticker}!` }
       },
@@ -523,6 +546,10 @@ export const useGameStore = create<GameState & GameActions>()(
         get().addXp(XP_REWARDS.LESSON_COMPLETE, 'Lesson completed')
         get().updateChallengeProgress('learn')
         get().checkAndUnlockAchievements()
+
+        // Track quest progress
+        const questStore = useQuestStore.getState()
+        questStore.trackLesson()
       },
 
       submitQuiz: (lessonId, pathId, score, totalQuestions) => {
@@ -555,6 +582,10 @@ export const useGameStore = create<GameState & GameActions>()(
           get().addXp(xpEarned, percentage === 100 ? 'Perfect quiz score!' : 'Quiz passed')
           get().updateChallengeProgress('quiz')
           get().checkAndUnlockAchievements()
+
+          // Track quest progress
+          const questStore = useQuestStore.getState()
+          questStore.trackQuiz(percentage === 100)
         } else {
           set({
             lessonProgress: existing
@@ -579,12 +610,13 @@ export const useGameStore = create<GameState & GameActions>()(
 
       // ========== XP & LEVELING ==========
 
-      addXp: (amount, _reason) => {
+      addXp: (amount, reason) => {
         const state = get()
         const newXp = state.xp + amount
         const { level, xpToNext } = calculateLevel(newXp)
 
         const leveledUp = level > state.level
+        const previousLevel = state.level
 
         set({
           xp: newXp,
@@ -593,8 +625,19 @@ export const useGameStore = create<GameState & GameActions>()(
           lastUpdated: new Date().toISOString(),
         })
 
+        // Trigger XP toast celebration
+        const celebrationStore = useCelebrationStore.getState()
+        celebrationStore.celebrateXPGain(amount, reason)
+
+        // Trigger level-up celebration if leveled up
         if (leveledUp) {
+          const newTitle = LEVEL_TITLES[Math.min(level - 1, LEVEL_TITLES.length - 1)]
+          celebrationStore.celebrateLevelUp(level, newTitle, previousLevel)
           get().checkAndUnlockAchievements()
+
+          // Track quest progress
+          const questStore = useQuestStore.getState()
+          questStore.trackLevel(level)
         }
       },
 
@@ -680,8 +723,19 @@ export const useGameStore = create<GameState & GameActions>()(
 
         if (newlyUnlocked.length > 0) {
           set({ achievements: updatedAchievements })
-          // Award XP for each unlocked achievement
-          newlyUnlocked.forEach(() => {
+
+          // Trigger achievement celebrations and award XP
+          const celebrationStore = useCelebrationStore.getState()
+          newlyUnlocked.forEach((achievement) => {
+            // Celebrate the achievement
+            celebrationStore.celebrateAchievement(
+              achievement.name,
+              achievement.description,
+              achievement.icon,
+              XP_REWARDS.ACHIEVEMENT_UNLOCK
+            )
+
+            // Award XP (without triggering another celebration - already did above)
             const currentState = get()
             const newXp = currentState.xp + XP_REWARDS.ACHIEVEMENT_UNLOCK
             const { level, xpToNext } = calculateLevel(newXp)
@@ -763,6 +817,7 @@ export const useGameStore = create<GameState & GameActions>()(
         }
 
         const newLongestStreak = Math.max(state.longestStreak, newStreak)
+        const previousStreak = state.lastLoginDate === yesterdayStr ? state.currentStreak : 0
 
         set({
           currentStreak: newStreak,
@@ -770,9 +825,24 @@ export const useGameStore = create<GameState & GameActions>()(
           lastLoginDate: today,
         })
 
+        // Celebrate streak milestones (3, 7, 30 days)
+        const celebrationStore = useCelebrationStore.getState()
+        if (newStreak === 3 && previousStreak < 3) {
+          celebrationStore.celebrateStreakMilestone(3, 50)
+        } else if (newStreak === 7 && previousStreak < 7) {
+          celebrationStore.celebrateStreakMilestone(7, 100)
+        } else if (newStreak === 30 && previousStreak < 30) {
+          celebrationStore.celebrateStreakMilestone(30, 500)
+        }
+
         get().addXp(XP_REWARDS.DAILY_LOGIN, 'Daily login bonus!')
         get().refreshDailyChallenges()
         get().checkAndUnlockAchievements()
+
+        // Track quest progress
+        const questStore = useQuestStore.getState()
+        questStore.trackStreak(newStreak)
+        questStore.trackLevel(state.level)
       },
 
       // ========== USER ==========

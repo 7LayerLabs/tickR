@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useGameStore, useLevelInfo, usePortfolioStats, LEVEL_TITLES } from '@/lib/game.store'
 import {
-  Crown,
   TrendingUp,
   Flame,
   Star,
@@ -14,9 +13,7 @@ import {
 } from 'lucide-react'
 import {
   LeaderboardIcon,
-  TrophyIcon,
   GoalIcon,
-  RocketIcon,
 } from '@/components/icons/TickRIcons'
 
 // Mock leaderboard data - in a real app this would come from an API
@@ -83,13 +80,6 @@ export default function LeaderboardPage() {
 
   const sortedPlayers = getSortedPlayers()
   const currentUserRank = sortedPlayers.findIndex(p => p.isCurrentUser) + 1
-
-  const getRankIcon = (rank: number) => {
-    if (rank === 1) return <Crown className="w-6 h-6 text-yellow-500" />
-    if (rank === 2) return <Medal className="w-6 h-6 text-slate-400" />
-    if (rank === 3) return <Medal className="w-6 h-6 text-amber-600" />
-    return <span className="text-lg font-bold text-slate-400">#{rank}</span>
-  }
 
   const getChangeIndicator = (change: number) => {
     if (change > 0) return <ChevronUp className="w-4 h-4 text-emerald-500" />

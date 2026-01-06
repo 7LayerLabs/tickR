@@ -10,7 +10,6 @@ import {
   TrendingDown,
   Zap,
   ChevronRight,
-  Target,
   ArrowRight,
   Clock,
   CheckCircle2,

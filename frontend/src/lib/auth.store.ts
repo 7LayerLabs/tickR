@@ -16,21 +16,11 @@ interface AuthState {
   clearError: () => void;
 }
 
-// DEMO MODE: Authentication bypassed for testing
-const DEMO_USER = {
-  id: 'demo-user-123',
-  username: 'DemoTrader',
-  ageBand: 'EARLY_TEEN' as const,
-  createdAt: new Date().toISOString(),
-  learningLevel: 1,
-  points: 0,
-};
-
 export const useAuth = create<AuthState>((set) => ({
-  // DEMO MODE: Pre-authenticated for testing
-  user: DEMO_USER,
-  isAuthenticated: true,
-  isLoading: false,
+  // Real auth - start unauthenticated
+  user: null,
+  isAuthenticated: false,
+  isLoading: true, // Start loading to check for existing token
   error: null,
 
   register: async (username, password, ageBand) => {
@@ -38,9 +28,10 @@ export const useAuth = create<AuthState>((set) => ({
     try {
       const response = await apiClient.register(username, password, ageBand);
       set({ user: response.user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { error?: string } } };
       set({
-        error: error.response?.data?.error || 'Registration failed',
+        error: axiosError.response?.data?.error || 'Registration failed',
         isLoading: false,
       });
       throw error;
@@ -52,9 +43,10 @@ export const useAuth = create<AuthState>((set) => ({
     try {
       const response = await apiClient.login(username, password);
       set({ user: response.user, isAuthenticated: true, isLoading: false });
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const axiosError = error as { response?: { data?: { error?: string } } };
       set({
-        error: error.response?.data?.error || 'Login failed',
+        error: axiosError.response?.data?.error || 'Login failed',
         isLoading: false,
       });
       throw error;
@@ -67,8 +59,24 @@ export const useAuth = create<AuthState>((set) => ({
   },
 
   checkAuth: async () => {
-    // DEMO MODE: Skip API check, always authenticated
-    set({ user: DEMO_USER, isAuthenticated: true, isLoading: false });
+    // Check for existing token and validate with API
+    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
+    if (!token) {
+      set({ user: null, isAuthenticated: false, isLoading: false });
+      return;
+    }
+
+    try {
+      const response = await apiClient.getMe();
+      set({ user: response.user, isAuthenticated: true, isLoading: false });
+    } catch {
+      // Token invalid or expired - clear it
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+      }
+      set({ user: null, isAuthenticated: false, isLoading: false });
+    }
   },
 
   clearError: () => set({ error: null }),
