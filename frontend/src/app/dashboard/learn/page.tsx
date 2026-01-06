@@ -1150,18 +1150,6 @@ export default function LearnPage() {
     setXpEarned(0)
   }
 
-  // Check if all lessons in a path are completed
-  const isPathComplete = (pathId: string) => {
-    const path = LEARNING_PATHS.find(p => p.id === pathId)
-    if (!path) return false
-    return path.lessons.every(lesson => isLessonCompleted(lesson.id, pathId))
-  }
-
-  // Check if path quiz is passed
-  const isPathQuizPassed = (pathId: string) => {
-    return pathQuizScores[pathId]?.passed || false
-  }
-
   // Lesson Detail View
   if (selectedLesson) {
     const isCompleted = selectedPath ? isLessonCompleted(selectedLesson.id, selectedPath) : false
